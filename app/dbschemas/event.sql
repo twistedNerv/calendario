@@ -1,6 +1,7 @@
 CREATE TABLE `event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `section` int(11) NOT NULL,
+  `date` date NOT NULL,
   `start` varchar(45) COLLATE utf8_slovenian_ci NOT NULL,
   `duration` int(11) NOT NULL DEFAULT 1,
   `location` varchar(45) COLLATE utf8_slovenian_ci NOT NULL,
