@@ -156,7 +156,7 @@ class apiModel extends model {
                                     </div>
                                     <div class="col-sm-3 text-right">
                                         here be views
-                                    </div>
+                                    </div> 
                                 </div>
                             </div>';
             foreach ($result as $row) {
