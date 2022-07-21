@@ -13,6 +13,7 @@ class eventModel extends model {
     public $discount;
     public $price;
     public $comment;
+    public $pickup_location;
 
     public function __construct() {
         parent::__construct();
@@ -117,6 +118,15 @@ class eventModel extends model {
         return $this;
     }
 
+    public function getPickup_location() {
+        return $this->pickup_location;
+    }
+
+    public function setPickup_location($pickup_location) {
+        $this->pickup_location = $pickup_location;
+        return $this;
+    }
+    
     public function getOneBy($ident, $value) {
         $result = $this->db->getOneByParam($ident, $value, 'event');
         $this->fillObject('event', $result);

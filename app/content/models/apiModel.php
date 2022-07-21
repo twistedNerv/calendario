@@ -7,6 +7,12 @@ class apiModel extends model {
     public function __construct() {
         parent::__construct();
     }
+    
+    private function displaySections() {
+        $result = $this->db->prepare("SELECT * FROM section");
+        $result->execute();
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function getCalendar($year = '', $month = '') {
         $dateYear = ($year != '') ? $year : date("Y");
@@ -44,7 +50,7 @@ class apiModel extends model {
             if (($cb >= $currentMonthFirstDay + 1 || $currentMonthFirstDay == 7) && $cb <= ($totalDaysOfMonthDisplay)) {
                 $currentDate = $dateYear . '-' . $dateMonth . '-' . sprintf("%02d", $dayCount);
                 $eventNum = 0;
-                $result = $this->db->prepare("SELECT * FROM event WHERE date = :currentDate ORDER BY date, start;");
+                $result = $this->db->prepare("SELECT * FROM event INNER JOIN section ON event.section = section.title WHERE date = :currentDate ORDER BY date, start;");
                 $result->bindParam(':currentDate', $currentDate);
                 $result->execute();
                 $result = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -65,7 +71,7 @@ class apiModel extends model {
                     foreach ($result as $row) {
                         if ($counter <= 5) {
                             $hasNotice = ($row['comment'] != "") ? "*" : "";
-                            $calendar .= '<span class="namespan" style="background-color:#' . $this->config->section[$row['section']] . ';color:' . $this->template->readableColour($this->config->section[$row['section']]) . ';">';
+                            $calendar .= '<span class="namespan" style="background-color:' . $row['color'] . ';color:' . $this->template->readableColour($row['color']) . ';">';
                             $calendar .= $row['start'] . '<br>' . $row['title'] . $hasNotice;
                             $calendar .= '</span>';
                         } else {
@@ -121,28 +127,66 @@ class apiModel extends model {
                                     customer.comment as cust_comment, 
          */
         $result = $this->db->prepare("SELECT event.id as event_id,
-                                        event.title as event_title
+                                        event.title as event_title,
+                                        event.description as description,
+                                        event.start as event_start, 
+                                        event.duration as event_duration, 
+                                        event.location as event_location, 
+                                        event.discount as event_discount, 
+                                        event.price as event_price, 
+                                        event.comment as event_comment, 
+                                        event.pickup_location as event_pickup_location, 
+                                        section.color as color
                                         FROM event 
+                                        INNER JOIN section ON event.section = section.title
                                         WHERE date = '" . $date . "'");
-         $result->execute();
+        $result->execute();
         $result = $result->fetchAll(PDO::FETCH_ASSOC);
         $eventNum = count($result);
-        echo $eventNum . "<---";
         if ($eventNum > 0) {
-            $eventListHTML = '<h2>Odsotnosti: ' . date("d M Y", strtotime($date)) . '</h2>';
-            $eventListHTML .= '<ul style="list-style-type: none;padding:0;">';
+            $eventListHTML = '<div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-3 text-left">
+                                        <a href="' . URL . 'event/update">
+                                            <i class="fa fa-plus-circle event-icon"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-6 text-center">
+                                        <strong>Events: ' . date("d M Y", strtotime($date)) . '</strong>
+                                    </div>
+                                    <div class="col-sm-3 text-right">
+                                        here be views
+                                    </div>
+                                </div>
+                            </div>';
             foreach ($result as $row) {
                 $dateString = "'" . $date . "'";
                 $event = "'#event-" . $row['event_id'] . "'";
-                $eventListHTML .= '<li style="background-color:' . $row['bg'] . ';line-height:30px;color:' . $row['font'] . '" class="font-light-' . $row['fontlight'] . '"><a href="javascript:" onclick="deleteConfirm(' . $event . ');" class="delete-btn-style" style="background-color: white;box-shadow: inset 0 0 7px 6px ' . $row['bg'] . ';">
-                            <img src="public/img/del.png" style="width:20px;margin-right:5px;margin-left:6px;" title="Briši odsotnost"></a>
-                            <strong>' . $row['username'] . '</strong> <i style="font-size: 13px;">' . nl2br($row['enotice']) . '</i></li>
-                            <li id="event-' . $row['eventId'] . '" class="event-id none">
-                                <div style="padding:10px;">Res želiš brisat? <span class="delete-dialog" onclick="deleteEvent(' . $row['eventId'] . ', ' . $dateString . ');">DA</span> <span class="delete-dialog" onclick="deleteCancel();">NE</span></div>
-                            </li>
-                            ';
+                $eventListHTML .= '<div style="background-color:' . $row['color'] . ';line-height:30px;">
+                                        
+                                        <a href="javascript:" onclick="deleteConfirm(' . $event . ');" class="delete-btn-style" style="float:left; padding-top: 2px;">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                        <div class="event-details-popup-wrapper" style="float:left" onclick="toggleEventPopup(&#39;#event-details-' . $row['event_id'] . '&#39;)">
+                                            <strong>' . $row['event_title'] . '</strong> <i style="font-size: 12px;"> at ' . $row['event_start'] . '</i>
+                                            <div id="event-details-' . $row['event_id'] . '" class="event-details-popup">
+                                                <i>' . $row['description'] . '<br></i>
+                                                Pickup location: <strong>' . $row['event_pickup_location'] . '</strong><br>
+                                                Location: <strong>' . $row['event_location'] . '</strong><br>
+                                                Duration: <strong>' . $row['event_duration'] . ' hour(s)</strong><br>
+                                                Discount: <strong>' . $row['event_discount'] . ' %</strong><br>
+                                                Price: <strong>' . $row['event_price'] . ' €</strong><br>
+                                                <hr>
+                                                Comment:<br>' . $row['event_comment'] . '<br>
+                                                
+                                            </div>
+                                        </div>
+                                        <div style="clear:both"></div>
+                                    </div>
+                                    <div id="event-' . $row['event_id'] . '" class="event-id none">
+                                        <div style="padding:10px;">Res želiš brisat? <span class="delete-dialog" onclick="deleteEvent(' . $row['event_id'] . ', ' . $dateString . ');">DA</span> <span class="delete-dialog" onclick="deleteCancel();">NE</span></div>
+                                    </div>';
             }
-            $eventListHTML .= '</ul>';
         }
         return $eventListHTML;
     }

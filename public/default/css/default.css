@@ -269,3 +269,19 @@ table td {
     margin: 0 0 0 -35px;
     padding-top: 5px;
 }
+.event-details-popup {
+    display: none;
+}
+.event-details-popup-wrapper {
+    
+}
+.event-details-popup-wrapper:hover {
+    cursor: pointer;
+}
+.event-icon {
+    font-size: 25px;
+}
+.event-icon:hover {
+    cursor: pointer;
+    color: #309c68;
+}

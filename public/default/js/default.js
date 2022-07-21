@@ -70,11 +70,17 @@ function run() {
 
 function deleteConfirm(eventId) {
     $(".event-id").slideUp();
+    $("#event-details-" . eventId).slideUp();
     $(eventId).slideDown();
 }
 
 function deleteCancel() {
     $(".event-id").slideUp();
+}
+
+function toggleEventPopup(eventId) {
+    console.log(eventId);
+    $(eventId).toggle();
 }
 
 $(document).ready(function () {

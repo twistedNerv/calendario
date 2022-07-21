@@ -12,16 +12,6 @@ class config {
                 'template'              => TEMPLATE,
                 'display_page_header'   => DISPLAY_PAGE_HEADER
             ];
-        
-        $this->section =
-            [
-                'surf'          => '9DD6E1',
-                'sup'           => 'CBD0D8',
-                'yoga'          => '919457',
-                'yogasup'       => 'D3E4E5',
-                'accommodation' => '8AAABC',
-                'adventure'     => 'D0947C'
-            ];
     }
     
     public function getParam($param) {
