@@ -53,7 +53,22 @@
                         </div>
                         <div class="col-sm-12">
                             <hr>
-                            Here be customers
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <label for="event-customer-search">Attending customers</label>
+                                        <input type="text" name="event-customer-search" id="event-customer-search" placeholder="search customer...">
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <a href="#" class="icon-add">
+                                            <i class="fa fa-plus-circle" id="event-customer-add"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-6 list-event-customer">
+                                        John Doe
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-sm-12">
                             <hr>

@@ -36,4 +36,8 @@ class apiController extends controller {
         echo $apiModel->setNewEvent();
     }
 
+    public function searchCustomerAction () {
+        $searchString = "%" . $this->tools->getPost('search_string') . "%";
+        echo $searchString;
+    }
 }
