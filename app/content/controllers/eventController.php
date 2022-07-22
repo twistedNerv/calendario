@@ -26,9 +26,9 @@ class eventController extends controller {
 			$eventModel->setStart($this->tools->getPost("event-start"));
 			$eventModel->setDuration($this->tools->getPost("event-duration"));
 			$eventModel->setLocation($this->tools->getPost("event-location"));
+			$eventModel->setPickup_location($this->tools->getPost("event-pickup_location"));
 			$eventModel->setTitle($this->tools->getPost("event-title"));
 			$eventModel->setDescription($this->tools->getPost("event-description"));
-			$eventModel->setDiscount($this->tools->getPost("event-discount"));
 			$eventModel->setPrice($this->tools->getPost("event-price"));
 			$eventModel->setComment($this->tools->getPost("event-comment"));
 			$eventModel->flush();

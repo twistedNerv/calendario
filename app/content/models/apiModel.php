@@ -134,7 +134,6 @@ class apiModel extends model {
                                         event.start as event_start, 
                                         event.duration as event_duration, 
                                         event.location as event_location, 
-                                        event.discount as event_discount, 
                                         event.price as event_price, 
                                         event.comment as event_comment, 
                                         event.pickup_location as event_pickup_location, 
@@ -149,14 +148,14 @@ class apiModel extends model {
         $eventListHTML = '<div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-3 text-left">
-                                    <a href="' . URL . 'event/update" target="_blank">
-                                        <i class="fa fa-plus-circle event-icon"></i></a>Add event
+                                    <!--a href="' . URL . 'event/update" target="_blank">
+                                        <i class="fa fa-plus-circle event-icon"></i></a -->
                                 </div>
                                 <div class="col-sm-6 text-center">
                                     <strong>Events: ' . date("d M Y", strtotime($date)) . '</strong>
                                 </div>
                                 <div class="col-sm-3 text-right">
-                                    here be views
+                                    
                                 </div>
                             </div>
                         </div>';
@@ -179,7 +178,6 @@ class apiModel extends model {
                                                 Pickup location: <strong>' . $row['event_pickup_location'] . '</strong><br>
                                                 Location: <strong>' . $row['event_location'] . '</strong><br>
                                                 Duration: <strong>' . $row['event_duration'] . ' hour(s)</strong><br>
-                                                Discount: <strong>' . $row['event_discount'] . ' %</strong><br>
                                                 Price: <strong>' . $row['event_price'] . ' €</strong><br>
                                                 <hr>
                                                 Comment:<br>' . $row['event_comment'] . '<br>

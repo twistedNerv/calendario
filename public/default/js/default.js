@@ -23,22 +23,23 @@ function addEvent() {
     section = $("#event-section").val();
     title = $("#event-title").val();
     description = $("#event-description").val();
-    location = $("#event-location").val();
+    eventlocation = $("#event-location").val();
+    pickup_location = $("#event-pickup_location").val();
     date_from = $("#event-date-from").val();
     date_to = $("#event-date-to").val();
     if(date_to == "") date_to = date_from;
     start = $("#event-start").val();
     duration = $("#event-duration").val();
-    discount = $("#event-discount").val();
     price = $("#event-price").val();
     comment = $("#event-comment").val();
     console.log(date_from);
+    console.log(location);
     if(date_from != "" && date_to != "") {
         console.log("bla2");
         $.ajax({
             type: 'POST',
             url: URL + 'api/setNewEvent/',
-            data: ({func:"addEvent", section:section, title:title, description:description, date_from:date_from, date_to:date_to, start:start, duration:duration, discount:discount, price:price, comment:comment}),
+            data: ({func:"addEvent", section:section, title:title, description:description, eventlocation:eventlocation, pickup_location:pickup_location, date_from:date_from, date_to:date_to, start:start, duration:duration, price:price, comment:comment}),
             success: function (data) {
                 console.log(data);
                 var newDisplayDates = date_from.split("-");

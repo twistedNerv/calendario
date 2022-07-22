@@ -10,7 +10,6 @@ class eventModel extends model {
     public $location;
     public $title;
     public $description;
-    public $discount;
     public $price;
     public $comment;
     public $pickup_location;
@@ -42,7 +41,7 @@ class eventModel extends model {
     }
 
     public function setDate($date) {
-        $this->date = date;
+        $this->date = $date;
         return $this;
     }
     
@@ -88,15 +87,6 @@ class eventModel extends model {
 
     public function setDescription($description) {
         $this->description = $description;
-        return $this;
-    }
-
-    public function getDiscount() {
-        return $this->discount;
-    }
-
-    public function setDiscount($discount) {
-        $this->discount = $discount;
         return $this;
     }
 

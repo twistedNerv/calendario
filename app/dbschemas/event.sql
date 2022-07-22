@@ -7,7 +7,6 @@ CREATE TABLE `event` (
   `location` varchar(45) COLLATE utf8_slovenian_ci NOT NULL,
   `title` varchar(45) COLLATE utf8_slovenian_ci DEFAULT NULL,
   `description` longtext COLLATE utf8_slovenian_ci DEFAULT NULL,
-  `discount` int(11) DEFAULT 0,
   `price` decimal(10,0) DEFAULT 0,
   `comment` longtext COLLATE utf8_slovenian_ci DEFAULT NULL,
   `pickup_location` varchar(45) COLLATE utf8_slovenian_ci DEFAULT NULL,

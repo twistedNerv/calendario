@@ -64,10 +64,6 @@
                 <textarea class='form-control' name='event-description' id='event-description' placeholder='enter description...'><?php echo ($data['selectedEvent']->description) ? $data['selectedEvent']->description : ''; ?></textarea>
             </div>
             <div class='form-group'>
-                <label for='event-discount'>discount in %</label>
-                <input type='number' class='form-control' name='event-discount' id='event-discount' placeholder='enter discount...' value='<?php echo ($data['selectedEvent']->discount) ? $data['selectedEvent']->discount : ''; ?>'>
-            </div>
-            <div class='form-group'>
                 <label for='event-price'>price per on event per one person</label>
                 <input type='text' class='form-control' name='event-price' id='event-price' placeholder='enter price...' value='<?php echo ($data['selectedEvent']->price) ? $data['selectedEvent']->price : ''; ?>'>
             </div>
