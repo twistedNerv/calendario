@@ -1,4 +1,4 @@
-CREATE TABLE `member` (
+CREATE TABLE `event_customer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,

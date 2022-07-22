@@ -1,6 +1,6 @@
 <?php
 
-class memberModel extends model {
+class event_customerModel extends model {
 
 	public $id;
 	public $event_id;
@@ -39,25 +39,25 @@ class memberModel extends model {
 	}
 
 	public function getOneBy($ident, $value) {
-		$result = $this->db->getOneByParam($ident, $value, 'member');
-		$this->fillObject('member', $result);
+		$result = $this->db->getOneByParam($ident, $value, 'event_customer');
+		$this->fillObject('event_customer', $result);
 		return $this;
 	}
 
 	public function getAll($orderBy = null, $order = null, $limit = null) {
-		return $this->db->getAll($orderBy, $order, $limit, 'member');
+		return $this->db->getAll($orderBy, $order, $limit, 'event_customer');
 	}
 
 public function getAllBy($ident, $identVal, $orderBy = null, $orderDirection = 'ASC', $limit=null) {
-return $this->db->getAllByParam($ident, $identVal, 'member', $orderBy, $orderDirection, $limit);
+return $this->db->getAllByParam($ident, $identVal, 'event_customer', $orderBy, $orderDirection, $limit);
 	}
 
 	public function flush($sqlDump=0) {
-		$this->db->flush($this, 'member', $sqlDump);
+		$this->db->flush($this, 'event_customer', $sqlDump);
 	}
 
 	public function remove() {
-		$this->db->delete($this, 'member');
+		$this->db->delete($this, 'event_customer');
 	}
 
 

@@ -35,6 +35,7 @@ body{ font-family: sans-serif;}
 #calender_section_bot ul li span{ margin-top:3px; float:left; margin-left:7px; text-align:center;}
 #calender_section_bot .namespan {
     margin-top:1px;
+    border: 1px solid #aaa;
     border-radius:5px;
     width:90%;
     font-size: 13px; 

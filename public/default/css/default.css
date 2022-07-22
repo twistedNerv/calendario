@@ -56,6 +56,13 @@ h2 {
     font-size: 40px;
     margin-bottom: 30px;
 }
+h2c {
+    font-size: 17px;
+    font-family: 'QuickSand Light Bold';
+    color: #595a5e;
+    padding-left: 0;
+    width: 100%;
+}
 h4 {
     font-size: 25px;
     margin-bottom: 16px;
@@ -165,8 +172,6 @@ select {
     border-radius: 2px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.1) inset;
     text-align: center;
-    //font-size: 25px;
-    //padding: 10px 10px 10px 20px;
     cursor: auto;
     background: #DDD;
     overflow: visible;
@@ -284,4 +289,11 @@ table td {
 .event-icon:hover {
     cursor: pointer;
     color: #309c68;
+}
+#add_event_section {
+    overflow-y: scroll;
+    height: 80%;
+}
+.add-collapser label {
+    margin-top: 8px;
 }

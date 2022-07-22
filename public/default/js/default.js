@@ -32,21 +32,24 @@ function addEvent() {
     duration = $("#event-duration").val();
     price = $("#event-price").val();
     comment = $("#event-comment").val();
-    console.log(date_from);
-    console.log(location);
     if(date_from != "" && date_to != "") {
-        console.log("bla2");
         $.ajax({
             type: 'POST',
             url: URL + 'api/setNewEvent/',
             data: ({func:"addEvent", section:section, title:title, description:description, eventlocation:eventlocation, pickup_location:pickup_location, date_from:date_from, date_to:date_to, start:start, duration:duration, price:price, comment:comment}),
             success: function (data) {
-                console.log(data);
                 var newDisplayDates = date_from.split("-");
                 getCalendar('calendar_div', newDisplayDates[0], newDisplayDates[1]);
+                $("#event-title").val("");
+                $("#event-description").val("");
+                $("#event-location").val("");
+                $("#event-pickup_location").val("");
                 $("#event-date-from").val("");
                 $("#event-date-to").val("");
-                $("#event-notice").val("");
+                $("#event-start").val("");
+                $("#event-duration").val("");
+                $("#event-price").val("");
+                $("#event-comment").val("");
                 $("#event-add-notification").html("Event added.").show().delay(3000).fadeOut('slow');;
             }
         });
