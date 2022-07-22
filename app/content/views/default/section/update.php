@@ -31,6 +31,10 @@
         <form action="<?= URL ?>section/update<?php echo ($data['selectedSection']->id) ? "/" . $data['selectedSection']->id : "" ?>" method="post">
             <input type="hidden" name="action" value="handlesection">
 		<div class='form-group'>
+			<label for='section-title'>color</label>
+			<input type='text' class='form-control' name='section-title' id='section-title' placeholder='title' value='<?php echo ($data['selectedSection']->title) ? $data['selectedSection']->title : ''; ?>' required>
+		</div>
+		<div class='form-group'>
 			<label for='section-color'>color</label>
 			<input type='color' class='form-control' style="height:30px;" name='section-color' id='section-color' placeholder='color' value='<?php echo ($data['selectedSection']->color) ? $data['selectedSection']->color : ''; ?>' required>
 		</div>
