@@ -15,5 +15,14 @@ class apiController extends controller {
         $apiModel = $this->loadModel('api');
         echo $apiModel->getEvents($date);
     }
+    
+    public function setNewEventAction () {
+        $apiModel = $this->loadModel('api');
+        $this->loadModel('event');
+        if (isset($_POST['title']) && $_POST['title'] != "") {
+            
+        }
+        echo $apiModel->setNewEvent();
+    }
 
 }

@@ -1,12 +1,18 @@
 body{ font-family: sans-serif;}
 .none{ display:none;}
 .dropdown{color: #444444;font-size:17px;}
-.user-picker {width:25%;height: 30px;}
-.date-picking-field {width: 33%;height: 30px;}
+.user-picker {height: 30px;}
+.date-picking-field {height: 30px;}
 .notice-textarea {margin-top: 10px;width: 92%;height: 80px;}
 .notice-field {width: 45%;height: 30px;}
 #calendar_div {width:100%;}
-#calender_section, #add_event_section{ /*width:700px;*/ margin:30px auto 0;}
+#calender_section {
+    //width:700px;
+    margin:30px auto 0;
+}
+#add_event_section { 
+    position: relative;
+}
 #calender_section h2, #add_event_section h2{ background-color:#efefef; color:#444444; font-size:17px; text-align:center; line-height:40px;}
 #calender_section h2 a, #add_event_section a{ /*color:#F58220;*/ float:none;font-size: 24px;text-decoration: none;margin:0 10px;}
 #calender_section_top{ width:100%; float:left; margin-top:20px;}
@@ -36,14 +42,14 @@ body{ font-family: sans-serif;}
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 0, 0, 0.1) inset;
 }
 #add_event_section {text-align: center;}
-#add_event_section h2 {cursor:pointer;}
+/*#add_event_section h2 {cursor:pointer;}
 #add_event_section h2:before {content: " \21E3"; margin-right: 40px; font-size: 25px;}
-#add_event_section h2:after {content: " \21E3"; margin-left: 40px; font-size: 25px;}
+#add_event_section h2:after {content: " \21E3"; margin-left: 40px; font-size: 25px;}*/
 .add-event-btn {width: 100px;height: 30px;background-color:#444;color:#ddd;border: 0;text-align: center;position: relative;left: 40%;right: auto;padding-top: 3px;margin: 10px;border-radius:3px;}
 .add-event-btn:hover {background-color:#999;color:#eee;cursor: pointer;}
 .font-light-light {text-shadow: 0 0 3px white;}
 .font-light-dark {text-shadow: 0 0 3px black;}
-#event_list {
+#event_list, #add_event_section {
     position: fixed;
     width: 100%;
     z-index: 999;

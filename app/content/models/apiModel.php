@@ -29,6 +29,8 @@ class apiModel extends model {
                 <select name='month_dropdown' class='month_dropdown dropdown'>" . $this->tools->getAllMonths($dateMonth) . "</select>
                 <select name='year_dropdown' class='year_dropdown dropdown'>" . $this->tools->getYearList($dateYear) . "</select>
                 <a href='javascript:void(0);' onclick='getCalendar(&quot;calendar_div&quot;, &quot;" . date("Y", strtotime($date . ' + 1 Month')) . "&quot;, &quot;" . date("m", strtotime($date . ' + 1 Month')) . "&quot;);'>&gt;&gt;</a>
+                <a href='javascript:void(0);' id='add_event_icon' onclick='$(&quot;#add_event_section&quot;).slideToggle()'>Add event</a>
+                
             </h2>
             <div id='event_list' class='none'></div>
             <div id='calender_section_top'>
@@ -90,7 +92,7 @@ class apiModel extends model {
                     $calendar .= '<div class="date_window">';
                     $calendar .= '<div class="popup_event">' . $eventNum . ' ' . $odsotnostGrammar . '</div>';
                 } else {
-                    $calendar .= '<div id="date_popup_' . $currentDate . '" class="date_popup_wrap none">';
+                    $calendar .= '<div id="date_popup_' . $currentDate . '" class="date_popup_wrap none" onclick="getEvents(\'' . $currentDate . '\');">';
                     $calendar .= '<div class="date_window">';
                     $calendar .= '<div class="popup_event">No events</div>';
                 }
@@ -143,34 +145,37 @@ class apiModel extends model {
         $result->execute();
         $result = $result->fetchAll(PDO::FETCH_ASSOC);
         $eventNum = count($result);
-        if ($eventNum > 0) {
-            $eventListHTML = '<div class="col-sm-12">
-                                <div class="row">
-                                    <div class="col-sm-3 text-left">
-                                        <a href="' . URL . 'event/update">
-                                            <i class="fa fa-plus-circle event-icon"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-6 text-center">
-                                        <strong>Events: ' . date("d M Y", strtotime($date)) . '</strong>
-                                    </div>
-                                    <div class="col-sm-3 text-right">
-                                        here be views
-                                    </div>
+        
+        $eventListHTML = '<div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-3 text-left">
+                                    <a href="' . URL . 'event/update" target="_blank">
+                                        <i class="fa fa-plus-circle event-icon"></i></a>Add event
                                 </div>
-                            </div>';
+                                <div class="col-sm-6 text-center">
+                                    <strong>Events: ' . date("d M Y", strtotime($date)) . '</strong>
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    here be views
+                                </div>
+                            </div>
+                        </div>';
+        if ($eventNum <= 0) {
+            $eventListHTML .= '<div style="margin: 60px 0;text-align: center;">
+                                    No events on selected day
+                                </div>';
+        } else {
             foreach ($result as $row) {
                 $dateString = "'" . $date . "'";
                 $event = "'#event-" . $row['event_id'] . "'";
                 $eventListHTML .= '<div style="background-color:' . $row['color'] . ';line-height:30px;">
-                                        
                                         <a href="javascript:" onclick="deleteConfirm(' . $event . ');" class="delete-btn-style" style="float:left; padding-top: 2px;">
                                             <i class="fas fa-times"></i>
                                         </a>
                                         <div class="event-details-popup-wrapper" style="float:left" onclick="toggleEventPopup(&#39;#event-details-' . $row['event_id'] . '&#39;)">
                                             <strong>' . $row['event_title'] . '</strong> <i style="font-size: 12px;"> at ' . $row['event_start'] . '</i>
                                             <div id="event-details-' . $row['event_id'] . '" class="event-details-popup">
-                                                <i>' . $row['description'] . '<br></i>
+                                                <hr><i>' . $row['description'] . '<br></i>
                                                 Pickup location: <strong>' . $row['event_pickup_location'] . '</strong><br>
                                                 Location: <strong>' . $row['event_location'] . '</strong><br>
                                                 Duration: <strong>' . $row['event_duration'] . ' hour(s)</strong><br>
@@ -178,7 +183,6 @@ class apiModel extends model {
                                                 Price: <strong>' . $row['event_price'] . ' €</strong><br>
                                                 <hr>
                                                 Comment:<br>' . $row['event_comment'] . '<br>
-                                                
                                             </div>
                                         </div>
                                         <div style="clear:both"></div>
@@ -189,6 +193,10 @@ class apiModel extends model {
             }
         }
         return $eventListHTML;
+    }
+    
+    public function setNewEvent() {
+        return $_POST;
     }
 
 }

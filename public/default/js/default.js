@@ -20,28 +20,37 @@ function getEvents(date) {
 }
 
 function addEvent() {
-    user_id = $("#user-picker").val();
+    section = $("#event-section").val();
+    title = $("#event-title").val();
+    description = $("#event-description").val();
+    location = $("#event-location").val();
     date_from = $("#event-date-from").val();
     date_to = $("#event-date-to").val();
     if(date_to == "") date_to = date_from;
-    notice = $("#event-notice").val();
+    start = $("#event-start").val();
+    duration = $("#event-duration").val();
+    discount = $("#event-discount").val();
+    price = $("#event-price").val();
+    comment = $("#event-comment").val();
     console.log(date_from);
     if(date_from != "" && date_to != "") {
+        console.log("bla2");
         $.ajax({
             type: 'POST',
-            url: 'include/functions.php',
-            data: ({func:"addEvent", user_id:user_id, date_from:date_from, date_to:date_to, notice:notice}),
-            success: function () {
+            url: URL + 'api/setNewEvent/',
+            data: ({func:"addEvent", section:section, title:title, description:description, date_from:date_from, date_to:date_to, start:start, duration:duration, discount:discount, price:price, comment:comment}),
+            success: function (data) {
+                console.log(data);
                 var newDisplayDates = date_from.split("-");
                 getCalendar('calendar_div', newDisplayDates[0], newDisplayDates[1]);
                 $("#event-date-from").val("");
                 $("#event-date-to").val("");
                 $("#event-notice").val("");
-                $("#event-add-notification").html("Odsotnost dodana.").show().delay(3000).fadeOut('slow');;
+                $("#event-add-notification").html("Event added.").show().delay(3000).fadeOut('slow');;
             }
         });
     } else {
-        $("#event-add-notification").html("Vnesi prvi datum.").show().delay(3000).fadeOut('slow');
+        $("#event-add-notification").html("Enter start date.");//.show().delay(3000).fadeOut('slow');
     }
 }
 
@@ -79,8 +88,7 @@ function deleteCancel() {
 }
 
 function toggleEventPopup(eventId) {
-    console.log(eventId);
-    $(eventId).toggle();
+    $(eventId).slideToggle();
 }
 
 $(document).ready(function () {
@@ -102,7 +110,13 @@ $(document).ready(function () {
     $(document).click(function (e) {
         if( $(e.target).closest("#event_list").length > 0 ) {
             return false;
+        } else {
+            $('#event_list').slideUp('fast');
         }
-        $('#event_list').slideUp('fast');
+        if( $(e.target).closest("#add_event_section, #add_event_icon").length > 0 ) {
+            return false;
+        } else {
+            $('#add_event_section').slideUp('fast');
+        }
     });
 });
