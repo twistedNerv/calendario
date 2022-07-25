@@ -52,7 +52,10 @@ class apiModel extends model {
             if (($cb >= $currentMonthFirstDay + 1 || $currentMonthFirstDay == 7) && $cb <= ($totalDaysOfMonthDisplay)) {
                 $currentDate = $dateYear . '-' . $dateMonth . '-' . sprintf("%02d", $dayCount);
                 $eventNum = 0;
-                $result = $this->db->prepare("SELECT * FROM event INNER JOIN section ON event.section = section.title WHERE date = :currentDate ORDER BY date, start;");
+                $result = $this->db->prepare("SELECT * FROM event 
+                                                INNER JOIN section ON event.section = section.id 
+                                                WHERE date = :currentDate 
+                                                ORDER BY date, start;");
                 $result->bindParam(':currentDate', $currentDate);
                 $result->execute();
                 $result = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -71,7 +74,7 @@ class apiModel extends model {
                 if ($eventNum > 0) {
                     $counter = 1;
                     foreach ($result as $row) {
-                        if ($counter <= 5) {
+                        if ($counter <= 4) {
                             $hasNotice = ($row['comment'] != "") ? "*" : "";
                             $calendar .= '<span class="namespan" style="background-color:' . $row['color'] . ';color:' . $this->template->readableColour($row['color']) . ';">';
                             $calendar .= $row['start'] . '<br>' . $row['title'] . $hasNotice;
@@ -137,14 +140,15 @@ class apiModel extends model {
                                         event.price as event_price, 
                                         event.comment as event_comment, 
                                         event.pickup_location as event_pickup_location, 
-                                        section.color as color
+                                        section.color as color,
+                                        section.title as section_title
                                         FROM event 
-                                        INNER JOIN section ON event.section = section.title
+                                        INNER JOIN section ON event.section = section.id
                                         WHERE date = '" . $date . "'");
         $result->execute();
+        //echo "<pre>";$result->debugDumpParams();die;
         $result = $result->fetchAll(PDO::FETCH_ASSOC);
         $eventNum = count($result);
-        
         $eventListHTML = '<div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-3 text-left">
@@ -167,13 +171,13 @@ class apiModel extends model {
             foreach ($result as $row) {
                 $dateString = "'" . $date . "'";
                 $event = "'#event-" . $row['event_id'] . "'";
-                $eventListHTML .= '<div style="background-color:' . $row['color'] . ';line-height:30px;">
+                $eventListHTML .= '<div class="col-sm-12" style="background-color:' . $row['color'] . ';line-height:30px;">
                                         <a href="javascript:" onclick="deleteConfirm(' . $event . ');" class="delete-btn-style" style="float:left; padding-top: 2px;">
                                             <i class="fas fa-times"></i>
                                         </a>
                                         <div class="event-details-popup-wrapper" style="float:left" onclick="toggleEventPopup(&#39;#event-details-' . $row['event_id'] . '&#39;)">
                                             <strong>' . $row['event_title'] . '</strong> <i style="font-size: 12px;"> at ' . $row['event_start'] . '</i>
-                                            <div id="event-details-' . $row['event_id'] . '" class="event-details-popup">
+                                            <div id="event-details-' . $row['event_id'] . '" class="event-details-popup text-left">
                                                 <hr><i>' . $row['description'] . '<br></i>
                                                 Pickup location: <strong>' . $row['event_pickup_location'] . '</strong><br>
                                                 Location: <strong>' . $row['event_location'] . '</strong><br>
@@ -193,8 +197,25 @@ class apiModel extends model {
         return $eventListHTML;
     }
     
-    public function setNewEvent() {
+     public function setNewEvent() {
         return $_POST;
     }
-
+    
+    public function searchCustomer($searchString) {
+        $result = $this->db->prepare("SELECT * FROM customer WHERE name LIKE :searchstring OR surname LIKE :searchstring LIMIT 10");
+        $result->bindParam(':searchstring', $searchString);
+        $result->execute();
+        //echo "<pre>";$result->debugDumpParams();die;
+        $result = $result->fetchAll(PDO::FETCH_ASSOC);
+        $count = count($result);
+        //echo $count;
+        $output = "<div id='tmpbox' class='tmpbox'>";
+        $output .= "<ul class='tmpbox-wrapper'>";
+        foreach ($result as $singleRow) {
+        //while($singleRow = $result->fetchAll(PDO::FETCH_ASSOC)) {
+            $output .= "<li class='tmpbox-single-result' onclick='selectCustomer(&#39;" . $singleRow['name'] . " " . $singleRow['surname'] . "_" . $singleRow['id'] . "&#39;)'>" . $singleRow['name'] . " " . $singleRow['surname'] . "</li>";
+        }
+        $output .= "</ul></div>";
+        return $output;
+    }
 }

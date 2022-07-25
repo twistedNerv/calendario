@@ -11,7 +11,7 @@
                         <div class="col-sm-12">
                             <select name="event-section" id="event-section" class="user-picker">
                                 <?php foreach ($data['sections'] as $singleSection) { ?>
-                                    <option value="<?= $singleSection['title'] ?>" style="background-color:<?= $singleSection['color'] ?>"><?= $singleSection['title'] ?></option>
+                                    <option value="<?= $singleSection['id'] ?>" style="background-color:<?= $singleSection['color'] ?>"><?= $singleSection['title'] ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -58,14 +58,12 @@
                                     <div class="col-sm-5">
                                         <label for="event-customer-search">Attending customers</label>
                                         <input type="text" name="event-customer-search" id="event-customer-search" placeholder="search customer...">
+                                        <div class="list-event-customer">
+                                            <!-- here be customers dropdown -->
+                                        </div>
                                     </div>
-                                    <div class="col-sm-1">
-                                        <a href="#" class="icon-add">
-                                            <i class="fa fa-plus-circle" id="event-customer-add"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-6 list-event-customer">
-                                        John Doe
+                                    <div id="event-customers">
+                                        <!-- here be customers -->
                                     </div>
                                 </div>
                             </div>

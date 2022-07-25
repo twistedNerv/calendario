@@ -32,11 +32,12 @@ function addEvent() {
     duration = $("#event-duration").val();
     price = $("#event-price").val();
     comment = $("#event-comment").val();
+    var customervalues = $("input[name='customertoeventid[]']").map(function(){return $(this).val();}).get();
     if(date_from != "" && date_to != "") {
         $.ajax({
             type: 'POST',
             url: URL + 'api/setNewEvent/',
-            data: ({func:"addEvent", section:section, title:title, description:description, eventlocation:eventlocation, pickup_location:pickup_location, date_from:date_from, date_to:date_to, start:start, duration:duration, price:price, comment:comment}),
+            data: ({func:"addEvent", section:section, title:title, description:description, eventlocation:eventlocation, pickup_location:pickup_location, date_from:date_from, date_to:date_to, start:start, duration:duration, price:price, comment:comment, customervalues:customervalues}),
             success: function (data) {
                 var newDisplayDates = date_from.split("-");
                 getCalendar('calendar_div', newDisplayDates[0], newDisplayDates[1]);

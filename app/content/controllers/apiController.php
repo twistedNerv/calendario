@@ -33,11 +33,20 @@ class apiController extends controller {
             $eventModel->flush();
             $this->tools->log("api", "Event element with title:" . $this->tools->getPost("title") . " event successfully added.");
         }
-        echo $apiModel->setNewEvent();
+        if (isset($_POST['customervalues']) && !empty($_POST['customervalues'])) {
+            $event_customerModel = $this->loadModel('event_customer');
+            foreach ($_POST['customervalues'] as $singleCustomerId) {
+                $event_customerModel->setEvent_id($this->tools->getPost("section"));
+                $event_customerModel->setCustomer_id($singleCustomerId);
+                $event_customerModel->flush();
+            }
+        }
+        //echo $apiModel->setNewEvent();
     }
 
     public function searchCustomerAction () {
+        $apiModel = $this->loadModel('api');
         $searchString = "%" . $this->tools->getPost('search_string') . "%";
-        echo $searchString;
+        echo $apiModel->searchCustomer($searchString);
     }
 }

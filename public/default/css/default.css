@@ -297,3 +297,27 @@ table td {
 .add-collapser label {
     margin-top: 8px;
 }
+.tmpbox {
+    position: absolute;
+    border: 1px solid #ccc;
+    background-color: white;
+    //display: none;
+    z-index: 500000000;
+    box-shadow: 0px 10px 10px #999;
+    padding: 5px 0;
+    border-radius: 0 10px 10px 10px;
+    width: 100%;
+}
+.tmpbox li:hover {
+    cursor: pointer;
+    background-color: #ddd;
+}
+.tmpbox-wrapper {
+    list-style-type: none;
+}
+.tmpbox-single-result {
+    position: relative;
+    left: -25px;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+}

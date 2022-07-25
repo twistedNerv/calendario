@@ -12,6 +12,22 @@ function toggleEventPopup(eventId) {
     $(eventId).slideToggle();
 }
 
+function selectCustomer(customer) {
+    var customerArray = customer.split("_");
+    var customer_name = customerArray[0];
+    var customer_id = customerArray[1];
+    $("#event-customer-search").val("");
+    $('.list-event-customer').hide();
+    code = "<div class='col-sm-12'>";
+    code += "<div class='row'>";
+    code += "<div class='col-sm-1 text-right'>";
+    code += "<span onclick='removecustomer( & quot;<?= $tempId ?> & quot; )' class='deletespan'><i class='fas fa-times' title='Remove customer'></i></span></div>";
+    code += "<div class='col-sm-10'><strong><input type='text' name='customertoevent[]' class='diagnozaitem readonlyinput' value='" + customer_name + "' readonly></strong></div>";
+    code += "<input type='hidden' name='customertoeventid[]' class='diagnozaitem readonlyinput' value='" + customer_id + "' readonly></strong></div>";
+    code += "</div></div>";
+    $("#event-customers").append(code);
+}
+
 function delay(callback, ms) {
     var timer = 0;
     return function () {
