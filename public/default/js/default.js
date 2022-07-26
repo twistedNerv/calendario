@@ -9,6 +9,7 @@ function deleteCancel() {
 }
 
 function toggleEventPopup(eventId) {
+    console.log(eventId);
     $(eventId).slideToggle();
 }
 

@@ -29,7 +29,7 @@ class apiModel extends model {
                 <select name='month_dropdown' class='month_dropdown dropdown'>" . $this->tools->getAllMonths($dateMonth) . "</select>
                 <select name='year_dropdown' class='year_dropdown dropdown'>" . $this->tools->getYearList($dateYear) . "</select>
                 <a href='javascript:void(0);' onclick='getCalendar(&quot;calendar_div&quot;, &quot;" . date("Y", strtotime($date . ' + 1 Month')) . "&quot;, &quot;" . date("m", strtotime($date . ' + 1 Month')) . "&quot;);'>&gt;&gt;</a>
-                <a href='javascript:void(0);' id='add_event_icon' onclick='$(&quot;#add_event_section&quot;).slideToggle()'>Add event</a>
+                <a href='javascript:void(0);' id='add_event_icon' onclick='$(&quot;#add_event_section&quot;).slideToggle()'><i class='fa fa-calendar-plus'></i></a>
                 
             </h2>
             <div id='event_list' class='none'></div>
@@ -144,7 +144,7 @@ class apiModel extends model {
                                         section.title as section_title
                                         FROM event 
                                         INNER JOIN section ON event.section = section.id
-                                        WHERE date = '" . $date . "'");
+                                        WHERE date = '" . $date . "' ORDER BY event_start");
         $result->execute();
         //echo "<pre>";$result->debugDumpParams();die;
         $result = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -169,25 +169,55 @@ class apiModel extends model {
                                 </div>';
         } else {
             foreach ($result as $row) {
+                $customers = $this->db->prepare('SELECT customer.name as name, customer.surname as surname
+                                                    FROM event_customer 
+                                                    INNER JOIN customer ON customer.id = event_customer.customer_id
+                                                    WHERE event_id = :event_id
+                                                    ORDER BY name');
+                $customers->bindParam(':event_id', $row['event_id']);
+                $customers->execute();
+                $customers = $customers->fetchAll(PDO::FETCH_ASSOC);
+                
                 $dateString = "'" . $date . "'";
                 $event = "'#event-" . $row['event_id'] . "'";
                 $eventListHTML .= '<div class="col-sm-12" style="background-color:' . $row['color'] . ';line-height:30px;">
-                                        <a href="javascript:" onclick="deleteConfirm(' . $event . ');" class="delete-btn-style" style="float:left; padding-top: 2px;">
-                                            <i class="fas fa-times"></i>
-                                        </a>
-                                        <div class="event-details-popup-wrapper" style="float:left" onclick="toggleEventPopup(&#39;#event-details-' . $row['event_id'] . '&#39;)">
-                                            <strong>' . $row['event_title'] . '</strong> <i style="font-size: 12px;"> at ' . $row['event_start'] . '</i>
-                                            <div id="event-details-' . $row['event_id'] . '" class="event-details-popup text-left">
-                                                <hr><i>' . $row['description'] . '<br></i>
-                                                Pickup location: <strong>' . $row['event_pickup_location'] . '</strong><br>
-                                                Location: <strong>' . $row['event_location'] . '</strong><br>
-                                                Duration: <strong>' . $row['event_duration'] . ' hour(s)</strong><br>
-                                                Price: <strong>' . $row['event_price'] . ' €</strong><br>
-                                                <hr>
-                                                Comment:<br>' . $row['event_comment'] . '<br>
+                                        <div class="row">
+                                            <div class="col-sm-12 event-list-content-section">
+                                                <a href="javascript:" onclick="deleteConfirm(' . $event . ');" class="delete-btn-style" style="float:left; padding-top: 2px;">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                                <div class="event-details-popup-wrapper text-left" style="float:left" onclick="toggleEventPopup(&#39;#event-details-' . $row['event_id'] . '&#39;)">
+                                                    <strong>' . $row['event_title'] . '</strong> <i style="font-size: 12px;"> at ' . $row['event_start'] . '</i>
+                                                    <div id="event-details-' . $row['event_id'] . '" class="event-details-popup col-sm-12"><hr>
+                                                        <div class="row">
+                                                            <div class="col-sm-4">
+                                                                <div class=" text-left">
+                                                                    <strong>Event:</strong><br>
+                                                                    ' . $row['description'] . '<br><br>
+                                                                    Pickup location: <strong>' . $row['event_pickup_location'] . '</strong><br>
+                                                                    Location: <strong>' . $row['event_location'] . '</strong><br>
+                                                                    Duration: <strong>' . $row['event_duration'] . ' hour(s)</strong><br>
+                                                                    Price: <strong>' . $row['event_price'] . ' €</strong><br>
+                                                                    <hr>
+                                                                    Comment:<br>' . $row['event_comment'] . '<br>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4 text-left">
+                                                                <strong>Participants:</strong><br>';
+                                                                foreach ($customers as $singleCustomer)    {
+                                                                    $eventListHTML .= '<a href="">' . $singleCustomer['name'] . ' ' . $singleCustomer['surname'] . '</a><br>';
+                                                                }
+                $eventListHTML .=                           '</div>
+                                                            <div class="col-sm-4 text-left">
+                                                                <strong>Instructors:</strong><br>
+                                                                Here be instructors<br>
+                                                                And some more
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div style="clear:both"></div>
                                     </div>
                                     <div id="event-' . $row['event_id'] . '" class="event-id none">
                                         <div style="padding:10px;">Res želiš brisat? <span class="delete-dialog" onclick="deleteEvent(' . $row['event_id'] . ', ' . $dateString . ');">DA</span> <span class="delete-dialog" onclick="deleteCancel();">NE</span></div>

@@ -137,7 +137,7 @@ h5d {
     float: left;
 }
 a {
-    color: #3282b8;
+    color: #836853;
 }
 a:hover {
     text-decoration: none;
@@ -278,7 +278,8 @@ table td {
     display: none;
 }
 .event-details-popup-wrapper {
-    
+    line-height: 20px;
+    font-size: 14px;
 }
 .event-details-popup-wrapper:hover {
     cursor: pointer;
@@ -320,4 +321,12 @@ table td {
     left: -25px;
     border-bottom: 1px solid #ddd;
     width: 100%;
+}
+.event-list-content-section {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.2) inset;
+}
+#add_event_icon {
+    position: absolute;
+    right: 40px;
+    top: 35px;
 }
