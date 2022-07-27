@@ -194,7 +194,7 @@ class apiModel extends model {
                                                 <a href="javascript:" onclick="deleteConfirm(' . $event . ');" class="delete-btn-style" style="float:left; padding-top: 2px;">
                                                     <i class="fas fa-times"></i>
                                                 </a>
-                                                <div class="event-details-popup-wrapper text-left" style="float:left" onclick="toggleEventPopup(&#39;#event-details-' . $row['event_id'] . '&#39;)">
+                                                <div class="col-sm-12 event-details-popup-wrapper text-left" onclick="toggleEventPopup(&#39;#event-details-' . $row['event_id'] . '&#39;)">
                                                     <strong>' . $row['event_title'] . '</strong> <i style="font-size: 12px;"> at ' . $row['event_start'] . '</i>
                                                     <div id="event-details-' . $row['event_id'] . '" class="event-details-popup col-sm-12"><hr>
                                                         <div class="row">
@@ -206,8 +206,7 @@ class apiModel extends model {
                                                                     Location: <strong>' . $row['event_location'] . '</strong><br>
                                                                     Duration: <strong>' . $row['event_duration'] . ' hour(s)</strong><br>
                                                                     Price: <strong>' . $row['event_price'] . ' €</strong><br>
-                                                                    <hr>
-                                                                    Comment:<br>' . $row['event_comment'] . '<br>
+                                                                    
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4 text-left">
@@ -222,6 +221,10 @@ class apiModel extends model {
                                                                     $eventListHTML .= '<a href="">' . $singleInstructor['name'] . ' ' . $singleInstructor['surname'] . '</a><br>';
                                                                 }
                 $eventListHTML .=                           '</div>
+                                                            <div class="col-sm-12">
+                                                                <hr>
+                                                                Comment:<br>' . $row['event_comment'] . '<br>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
