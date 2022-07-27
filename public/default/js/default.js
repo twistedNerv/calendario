@@ -13,6 +13,22 @@ function toggleEventPopup(eventId) {
     $(eventId).slideToggle();
 }
 
+function selectInstructor(instructor) {
+    var instructorArray = instructor.split("_");
+    var instructor_name = instructorArray[0];
+    var instructor_id = instructorArray[1];
+    $("#event-instructor-search").val("");
+    $('.list-event-instructor').hide();
+    code = "<div class='col-sm-12'>";
+    code += "<div class='row'>";
+    code += "<div class='col-sm-1 text-right'>";
+    code += "<span onclick='removeinstructor( & quot;<?= $tempId ?> & quot; )' class='deletespan'><i class='fas fa-times' title='Remove instructor'></i></span></div>";
+    code += "<div class='col-sm-10'><strong><input type='text' name='instructortoevent[]' class='readonlyinput' value='" + instructor_name + "' readonly></strong></div>";
+    code += "<input type='hidden' name='instructortoeventid[]' class='readonlyinput' value='" + instructor_id + "' readonly></strong></div>";
+    code += "</div></div>";
+    $("#event-instructors").append(code);
+}
+
 function selectCustomer(customer) {
     var customerArray = customer.split("_");
     var customer_name = customerArray[0];

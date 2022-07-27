@@ -70,7 +70,20 @@
                         </div>
                         <div class="col-sm-12">
                             <hr>
-                            Here be instructors
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <label for="event-instructor-search">Attending instructors</label>
+                                        <input type="text" name="event-instructor-search" id="event-instructor-search" placeholder="search instructor...">
+                                        <div class="list-event-instructor">
+                                            <!-- here be instructor dropdown -->
+                                        </div>
+                                    </div>
+                                    <div id="event-instructors">
+                                        <!-- here be instructor -->
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-sm-12">
                             <hr>

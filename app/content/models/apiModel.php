@@ -30,7 +30,6 @@ class apiModel extends model {
                 <select name='year_dropdown' class='year_dropdown dropdown'>" . $this->tools->getYearList($dateYear) . "</select>
                 <a href='javascript:void(0);' onclick='getCalendar(&quot;calendar_div&quot;, &quot;" . date("Y", strtotime($date . ' + 1 Month')) . "&quot;, &quot;" . date("m", strtotime($date . ' + 1 Month')) . "&quot;);'>&gt;&gt;</a>
                 <a href='javascript:void(0);' id='add_event_icon' onclick='$(&quot;#add_event_section&quot;).slideToggle()'><i class='fa fa-calendar-plus'></i></a>
-                
             </h2>
             <div id='event_list' class='none'></div>
             <div id='calender_section_top'>
@@ -178,6 +177,15 @@ class apiModel extends model {
                 $customers->execute();
                 $customers = $customers->fetchAll(PDO::FETCH_ASSOC);
                 
+                $instructors = $this->db->prepare('SELECT instructor.name as name, instructor.surname as surname
+                                                    FROM event_instructor 
+                                                    INNER JOIN instructor ON instructor.id = event_instructor.instructor_id
+                                                    WHERE event_id = :event_id
+                                                    ORDER BY name');
+                $instructors->bindParam(':event_id', $row['event_id']);
+                $instructors->execute();
+                $instructors = $instructors->fetchAll(PDO::FETCH_ASSOC);
+                
                 $dateString = "'" . $date . "'";
                 $event = "'#event-" . $row['event_id'] . "'";
                 $eventListHTML .= '<div class="col-sm-12" style="background-color:' . $row['color'] . ';line-height:30px;">
@@ -209,10 +217,11 @@ class apiModel extends model {
                                                                 }
                 $eventListHTML .=                           '</div>
                                                             <div class="col-sm-4 text-left">
-                                                                <strong>Instructors:</strong><br>
-                                                                Here be instructors<br>
-                                                                And some more
-                                                            </div>
+                                                                <strong>Instructors:</strong><br>';
+                                                               foreach ($instructors as $singleInstructor)    {
+                                                                    $eventListHTML .= '<a href="">' . $singleInstructor['name'] . ' ' . $singleInstructor['surname'] . '</a><br>';
+                                                                }
+                $eventListHTML .=                           '</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -247,5 +256,35 @@ class apiModel extends model {
         }
         $output .= "</ul></div>";
         return $output;
+    }
+    
+    public function searchInstructor($searchString) {
+        $result = $this->db->prepare("SELECT * FROM instructor WHERE name LIKE :searchstring OR surname LIKE :searchstring LIMIT 10");
+        $result->bindParam(':searchstring', $searchString);
+        $result->execute();
+        //echo "<pre>";$result->debugDumpParams();die;
+        $result = $result->fetchAll(PDO::FETCH_ASSOC);
+        $count = count($result);
+        //echo $count;
+        $output = "<div id='tmpbox' class='tmpbox'>";
+        $output .= "<ul class='tmpbox-wrapper'>";
+        foreach ($result as $singleRow) {
+        //while($singleRow = $result->fetchAll(PDO::FETCH_ASSOC)) {
+            $output .= "<li class='tmpbox-single-result' onclick='selectInstructor(&#39;" . $singleRow['name'] . " " . $singleRow['surname'] . "_" . $singleRow['id'] . "&#39;)'>" . $singleRow['name'] . " " . $singleRow['surname'] . "</li>";
+        }
+        $output .= "</ul></div>";
+        return $output;
+    }
+    
+    public function deleteEvent($event_id) {
+        $result = $this->db->prepare('DELETE FROM event WHERE id = :event_id');
+        $result->bindParam(':event_id', $event_id);
+        $result->execute();
+        $result = $this->db->prepare('DELETE FROM event_customer WHERE event_id = :event_id');
+        $result->bindParam(':event_id', $event_id);
+        $result->execute();
+        $result = $this->db->prepare('DELETE FROM event_instructor WHERE event_id = :event_id');
+        $result->bindParam(':event_id', $event_id);
+        $result->execute();
     }
 }

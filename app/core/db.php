@@ -139,5 +139,13 @@ class db extends PDO {
         }
         return $this->result;
     }
-
+    
+    public function getLast($table, $ident) {
+        $sql = "SELECT $ident FROM $table ORDER BY id DESC LIMIT 1;";
+        $this->result = $this->prepare($sql);
+        $this->result->execute();
+        //echo "<pre>";$this->result->debugDumpParams();die;
+        $result = $this->result->fetch(PDO::FETCH_ASSOC);
+        return $result[$ident];
+    }
 }

@@ -18,7 +18,7 @@ class apiController extends controller {
     
     public function setNewEventAction () {
         $eventModel = $this->loadModel('event');
-        var_dump($_POST);
+        
         if (isset($_POST['title']) && $_POST['title'] != "") {
             $eventModel->setSection($this->tools->getPost("section"));
             $eventModel->setTitle($this->tools->getPost("title"));
@@ -32,13 +32,23 @@ class apiController extends controller {
             $eventModel->setComment($this->tools->getPost("comment"));
             $eventModel->flush();
             $this->tools->log("api", "Event element with title:" . $this->tools->getPost("title") . " event successfully added.");
-        }
-        if (isset($_POST['customervalues']) && !empty($_POST['customervalues'])) {
-            $event_customerModel = $this->loadModel('event_customer');
-            foreach ($_POST['customervalues'] as $singleCustomerId) {
-                $event_customerModel->setEvent_id($this->tools->getPost("section"));
-                $event_customerModel->setCustomer_id($singleCustomerId);
-                $event_customerModel->flush();
+            
+            $lastEventId = $eventModel->getLast('id');
+            if (isset($_POST['customervalues']) && !empty($_POST['customervalues'])) {
+                $event_customerModel = $this->loadModel('event_customer');
+                foreach ($_POST['customervalues'] as $singleCustomerId) {
+                    $event_customerModel->setEvent_id($lastEventId);
+                    $event_customerModel->setCustomer_id($singleCustomerId);
+                    $event_customerModel->flush();
+                }
+            }
+            if (isset($_POST['instructorvalues']) && !empty($_POST['instructorvalues'])) {
+                $event_instructorModel = $this->loadModel('event_instructor');
+                foreach ($_POST['instructorvalues'] as $singleInstructorId) {
+                    $event_instructorModel->setEvent_id($lastEventId);
+                    $event_instructorModel->setInstructor_id($singleInstructorId);
+                    $event_instructorModel->flush();
+                }
             }
         }
         //echo $apiModel->setNewEvent();
@@ -48,5 +58,16 @@ class apiController extends controller {
         $apiModel = $this->loadModel('api');
         $searchString = "%" . $this->tools->getPost('search_string') . "%";
         echo $apiModel->searchCustomer($searchString);
+    }
+    
+    public function searchInstructorAction () {
+        $apiModel = $this->loadModel('api');
+        $searchString = "%" . $this->tools->getPost('search_string') . "%";
+        echo $apiModel->searchInstructor($searchString);
+    }
+    
+    public function removeEventAction($event_id) {
+        $apiModel = $this->loadModel('api');
+        $apiModel->deleteEvent($event_id);
     }
 }

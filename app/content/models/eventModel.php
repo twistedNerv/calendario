@@ -138,5 +138,8 @@ class eventModel extends model {
     public function remove() {
         $this->db->delete($this, 'event');
     }
-
+    
+    public function getLast($ident) {
+        return $this->db->getLast('event', $ident);
+    }
 }

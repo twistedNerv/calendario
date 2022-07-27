@@ -327,6 +327,9 @@ table td {
 }
 #add_event_icon {
     position: absolute;
-    right: 40px;
-    top: 35px;
+    right: 30px;
+    top: 37px;
+}
+.fa-calendar-plus {
+    font-size: 28px;
 }
