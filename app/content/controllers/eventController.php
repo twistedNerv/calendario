@@ -13,6 +13,27 @@ class eventController extends controller {
         $this->view->assign('items', $eventObj);
         $this->view->render("event/index");
     }
+    
+    public function getEventAction($event_id) {
+        $eventModel = $this->loadModel('event');
+        $event = (array)$eventModel->getOneBy('id', $event_id);
+        unset($event['db']);
+        unset($event['tools']);
+        unset($event['template']);
+        unset($event['config']);
+        $event_customerModel = $this->loadModel('event_customer');
+        $event_customers = (array)$event_customerModel->getAllBy('event_id', $event_id);
+        $customerModel = $this->loadModel('customer');
+        $i = 0;
+        foreach ($event_customers as $singleCustomer) {
+            $customer = $customerModel->getOneBy('id', $singleCustomer['customer_id']);
+            $event['customers'][$i]['id'] = $customer->id;
+            $event['customers'][$i]['name'] = $customer->name;
+            $event['customers'][$i]['surname'] = $customer->surname;
+            $i++;
+        }
+        echo json_encode($event);
+    }
 
     public function updateAction($id = 0) {
         $this->tools->checkPageRights(4);

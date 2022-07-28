@@ -62,6 +62,35 @@ function addEvent() {
     }
 }
 
+function editEvent(event) {
+    $('#event_list').slideUp('fast');
+    $('#add_event_section').slideUp('fast');
+    $('#add_event_section').slideToggle()
+    if (event != "") {
+        $.ajax({
+            type: 'GET',
+            url: URL + 'event/getEvent/' + event,
+            success: function (data) {
+                event_data = $.parseJSON(data);
+                console.log(event_data);
+                $("#event-title").val(event_data.title);
+                $("#event-description").append(event_data.description);
+                $("#event-location").val(event_data.location);
+                $("#event-pickup_location").val(event_data.pickup_location);
+                $("#event-date-from").val(event_data.date);
+                $("#event-date-to").val('');
+                $("#event-start").val(event_data.start);
+                $("#event-duration").val(event_data.duration);
+                $("#event-price").val(event_data.price);
+                $("#event-comment").val(event_data.comment);
+                jQuery.each(event_data.customers, function(key, val) {
+                    selectCustomer(val.name + " " + val.surname + "_" + val.id)
+                });
+            }
+        });
+    }
+}
+
 function deleteEvent(eventId, date) {
     $.ajax({
         type: 'POST',
