@@ -29,6 +29,17 @@ function getEvents(date) {
     });
 }
 
+function getAccomodations(date) {
+    $.ajax({
+        type: 'GET',
+        url: URL + 'api/getAccomodations/' + date,
+        success: function (html) {
+            $('#accomodation_list').html(html);
+            $('#accomodation_list').slideDown('fast');
+        }
+    });
+}
+
 function addEvent() {
     section = $("#event-section").val();
     title = $("#event-title").val();

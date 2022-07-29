@@ -8,94 +8,49 @@
             <div class="add-collapser board-section">
                 <div class="col-sm-12 text-left" style="margin: 20px 5px;">
                     <div class="row">
-                        <div class="col-sm-12">
-                            <select name="event-section" id="event-section" class="user-picker">
-                                <?php foreach ($data['sections'] as $singleSection) { ?>
-                                    <option value="<?= $singleSection['id'] ?>" style="background-color:<?= $singleSection['color'] ?>"><?= $singleSection['title'] ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="col-sm-12">
-                            <label for="event-title">Title</label>
-                            <input type='text' class='form-control' name='event-title' id='event-title' placeholder='enter event title...'>
-                        </div>
-                        <div class="col-sm-12">
-                            <label for="event-description">Description</label>
-                            <textarea name="event-description" class="notice-textarea" id="event-description" placeholder="enter event description..."></textarea>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="event-location">Event location</label>
-                            <input type='text' class='form-control' name='event-location' id='event-location' placeholder='enter event location...' required>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="event-pickup_location">Pickup location</label>
-                            <input type='text' class='form-control' name='event-pickup_location' id='event-pickup_location' placeholder='enter pickup location...' required>
-                        </div>
-                        <div class="col-sm-5">
-                            <label for="event-date-from">Event date</label>
-                            <input type="date" name="event-date-from" class="daate-pickhing-field" id="event-date-from" onfocus="this.showPicker()" required>
-                        </div>
-                        <div class="col-sm-5">
-                            <label for="event-date-to">Repeating events end date</label>
-                            <input type="date" name="event-date-to" class="datae-picking-field" id="event-date-to" onfocus="this.showPicker()" required>
-                        </div>
-                        <div class="col-sm-4">
-                            <label for="event-time">Time start of the event</label>
-                            <input type='time' class='form-control' name='event-start' id='event-start' min="00:00" max="23:59" required>
-                        </div>
-                        <div class="col-sm-3">
-                            <label for="event-duration">Duration (hours)</label>
-                            <input type='number' class='form-control' name='event-duration' id='event-duration' placeholder='duration...' required>
-                        </div>
-                        <div class="col-sm-5">
-                            <label for="event-price">Price (per event per customer)</label>
-                            <input type='text' class='form-control' name='event-price' id='event-price' placeholder='enter price...'>
-                        </div>
-                        <div class="col-sm-12">
-                            <hr>
-                            <div class="col-sm-12">
-                                <div class="row">
-                                    <div class="col-sm-5">
-                                        <label for="event-customer-search">Attending customers</label>
-                                        <input type="text" name="event-customer-search" id="event-customer-search" placeholder="search customer...">
-                                        <div class="list-event-customer">
-                                            <!-- here be customers dropdown -->
-                                        </div>
-                                    </div>
-                                    <div id="event-customers">
-                                        <!-- here be customers -->
+                                <div class="col-sm-6">
+                                    <label for="accomodation-customer-search">Customer</label>
+                                    <input type="text" name="accomodation-customer-search" id="accomodation-customer-search" placeholder="search customer...">
+                                    <div class="list-accomodation-customer">
+                                        <!-- here be customers dropdown -->
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <hr>
-                            <div class="col-sm-12">
-                                <div class="row">
-                                    <div class="col-sm-5">
-                                        <label for="event-instructor-search">Attending instructors</label>
-                                        <input type="text" name="event-instructor-search" id="event-instructor-search" placeholder="search instructor...">
-                                        <div class="list-event-instructor">
-                                            <!-- here be instructor dropdown -->
-                                        </div>
-                                    </div>
-                                    <div id="event-instructors">
-                                        <!-- here be instructor -->
-                                    </div>
+                                <div id="accomodation-customers">
+                                    <!-- here be customers -->
                                 </div>
-                            </div>
+                        <div class="col-sm-6">
+                            <label for="accomodation-title">Room</label>
+                            <input type='text' class='form-control' name='accomodation-title' id='accomodation-title' placeholder='enter accomodation title...'>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="accomodation-price">Price (per vacation)</label>
+                            <input type='text' class='form-control' name='accomodation-price' id='accomodation-price' placeholder='enter price...'>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="accomodation-title">Bed</label>
+                            <input type='text' class='form-control' name='accomodation-title' id='accomodation-title' placeholder='enter accomodation title...'>
+                        </div>
+                        <div class="col-sm-6">
+                            <hr>
+                            <label for="accomodation-date-from">Accomodation start</label>
+                            <input type="date" name="accomodation-date-from" id="accomodation-date-from" onfocus="this.showPicker()" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <hr>
+                            <label for="accomodation-date-to">Accomodation end</label>
+                            <input type="date" name="accomodation-date-to" id="accomodation-date-to" onfocus="this.showPicker()" required>
                         </div>
                         <div class="col-sm-12">
                             <hr>
-                            <label for="event-comment">Comment (for personal use)</label>
-                            <textarea name="event-comment" class="notice-textarea" id="event-comment" placeholder="comment"></textarea>
+                            <label for="accomodation-comment">Comment (for personal use)</label>
+                            <textarea name="accomodation-comment" class="notice-textarea" id="accomodation-comment" placeholder="comment"></textarea>
                         </div>
                     </div>
                     <div class="col-sm-8">
-                        <div id="event-add-notification" class="none"></div>
+                        <div id="accomodation-add-notification" class="none"></div>
                     </div>
                     <div class="col-sm-8">
-                        <div class="add-event-btn btn btn-primary" onclick="addEvent()">Submit</div>
+                        <div class="add-accomodation-btn btn btn-primary" onclick="addAccomodation()">Submit</div>
                     </div>
                 </div>
             </div>

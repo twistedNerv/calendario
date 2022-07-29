@@ -49,7 +49,10 @@ body{ font-family: sans-serif;}
 .add-event-btn:hover {background-color:#999;color:#eee;cursor: pointer;}
 .font-light-light {text-shadow: 0 0 3px white;}
 .font-light-dark {text-shadow: 0 0 3px black;}
-#event_list, #add_event_section {
+#event_list, 
+#add_event_section, 
+#accomodation_list, 
+#add_accomodation_section {
     position: fixed;
     top: 80px;
     width: 100%;
@@ -143,22 +146,35 @@ body{ font-family: sans-serif;}
 a:hover {color: #181919;text-decoration: underline;}
 
 @media only screen and (min-width:480px) and (max-width:767px) {
-    #calender_section, #add_event_section{ width:336px;}
+    #calender_section, 
+    #add_event_section, 
+    #add_accomodation_section { 
+        width:336px;
+    }
     #calender_section_top ul li{ width:47px;}
     #calender_section_bot ul li{ width:47px;}
 }
 @media only screen and (min-width: 320px) and (max-width: 479px) {
-    #calender_section, #add_event_section{ width:219px;}
+    #calender_section, 
+    #add_event_section,
+    #add_accomodation_section { 
+        width:219px;
+    }
     #calender_section_top ul li{ width:30px; font-size:11px;}
     #calender_section_bot ul li{ width:30px;}
     #calender_section_bot{ width:217px;}
     #calender_section_bot ul li{ height:50px;}
     .namespan {display: none;}
     #add_event_section h2:after {content: "";}
+    #add_accomodation_section h2:after {content: "";}
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
-    #calender_section, #add_event_section{ width:530px;}
+    #calender_section, 
+    #add_event_section,
+    #add_accomodation_section { 
+        width:530px;
+    }
     #calender_section_top ul li{ width:74px;}
     #calender_section_bot ul li{ width:74px;}
     #calender_section_bot{ width:525px;}

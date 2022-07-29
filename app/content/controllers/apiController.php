@@ -16,6 +16,11 @@ class apiController extends controller {
         echo $apiModel->getEvents($date);
     }
     
+    public function getAccomodationsAction($date) {
+        $apiModel = $this->loadModel('api');
+        echo $apiModel->getAccomodations($date);
+    }
+    
     public function setNewEventAction () {
         $eventModel = $this->loadModel('event');
         

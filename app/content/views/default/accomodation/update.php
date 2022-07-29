@@ -11,7 +11,7 @@
             foreach ($data['items'] as $singleItem) { 
                 $selectedAccomodationClass = ($data['selectedAccomodation']->id == $singleItem['id']) ? "font-weight-bold" : ""; ?>
                 <div>
-                    <span class='<?=$selectedAccomodationClass?>'><?=$singleItem['id']?></span> | 
+                    <span class='<?=$selectedAccomodationClass?>'><?=$singleItem['customer_id']?></span> | 
                     <a href='<?=URL?>accomodation/update/<?=$singleItem['id']?>' title='Edit accomodation'><i class='far fa-edit'></i></a> |
                     <a href='<?=URL?>accomodation/remove/<?=$singleItem['id']?>' title='Delete accomodation' onclick='return confirm("Really want to delete?");'><i class='fas fa-times'></i></a>
                 </div>

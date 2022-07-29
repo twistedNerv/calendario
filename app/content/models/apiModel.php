@@ -117,19 +117,6 @@ class apiModel extends model {
     public function getEvents($date) {
         $eventListHTML = '';
         $date = $date ? $date : date("Y-m-d");
-        /*
-         * customer.id as cust_id, 
-                                    customer.hash as cust_hash, 
-                                    customer.name as cust_name, 
-                                    customer.surname as cust_surname, 
-                                    customer.gender as cust_gender, 
-                                    customer.address as cust_address, 
-                                    customer.city as cust_city, 
-                                    customer.country as cust_country, 
-                                    customer.phone as cust_phone, 
-                                    customer.email as cust_email, 
-                                    customer.comment as cust_comment, 
-         */
         $result = $this->db->prepare("SELECT event.id as event_id,
                                         event.title as event_title,
                                         event.description as description,
@@ -333,7 +320,10 @@ class apiModel extends model {
                 $currentDate = $dateYear . '-' . $dateMonth . '-' . sprintf("%02d", $dayCount);
                 $eventNum = 0;
                 $result = $this->db->prepare("SELECT * FROM accomodation
-                                                WHERE CURDATE() between date_start and date_end;");
+                                                INNER JOIN customer ON accomodation.customer_id = customer.id
+                                                INNER JOIN bed ON bed.id = accomodation.bed_id
+                                                INNER JOIN room ON bed.room_id = room.id
+                                                WHERE '" . $currentDate . "' between date_start and date_end;");
                 $result->execute();
                 $result = $result->fetchAll(PDO::FETCH_ASSOC);
                 $eventNum = count($result);
@@ -351,10 +341,10 @@ class apiModel extends model {
                 if ($eventNum > 0) {
                     $counter = 1;
                     foreach ($result as $row) {
-                        if ($counter <= 4) {
+                        if ($counter <= 8) {
                             $hasNotice = ($row['comment'] != "") ? "*" : "";
                             $calendar .= '<span class="namespan" style="background-color:' . $row['color'] . ';color:' . $this->template->readableColour($row['color']) . ';">';
-                            $calendar .= $row['start'] . '<br>' . $row['title'] . $hasNotice;
+                            $calendar .= $row['name'] . ' ' . $row['surname'] . $hasNotice;
                             $calendar .= '</span>';
                         } else {
                             $calendar .= '<span class="namespan" style="font-size:20px;font-weight:bold;line-height:0px;position:relative;top:-2px;">...</span>';
@@ -367,14 +357,14 @@ class apiModel extends model {
                 //Hover event popup
 
                 if ($eventNum > 0) {
-                    $odsotnostGrammar = ($eventNum != 1) ? "events" : "event";
-                    $calendar .= '<div id="date_popup_' . $currentDate . '" class="date_popup_wrap none" onclick="getEvents(\'' . $currentDate . '\');">';
+                    $odsotnostGrammar = ($eventNum != 1) ? "beds full" : "bed full";
+                    $calendar .= '<div id="date_popup_' . $currentDate . '" class="date_popup_wrap none" onclick="getAccomodations(\'' . $currentDate . '\');">';
                     $calendar .= '<div class="date_window">';
                     $calendar .= '<div class="popup_event">' . $eventNum . ' ' . $odsotnostGrammar . '</div>';
                 } else {
-                    $calendar .= '<div id="date_popup_' . $currentDate . '" class="date_popup_wrap none" onclick="getEvents(\'' . $currentDate . '\');">';
+                    $calendar .= '<div id="date_popup_' . $currentDate . '" class="date_popup_wrap none" onclick="getAccomodations(\'' . $currentDate . '\');">';
                     $calendar .= '<div class="date_window">';
-                    $calendar .= '<div class="popup_event">No events</div>';
+                    $calendar .= '<div class="popup_event">Empty</div>';
                 }
                 //echo ($eventNum > 0) ? '<a href="javascript:;" onclick="getEvents(\'' . $currentDate . '\');">view events</a>' : '';
                 $calendar .= '</div></div>';
@@ -390,5 +380,78 @@ class apiModel extends model {
             </div>
         </div>";
         return $calendar;
+    }
+    
+    public function getAccomodations($date) {
+        $eventListHTML = '';
+        $date = $date ? $date : date("Y-m-d");
+        $result = $this->db->prepare("SELECT * FROM accomodation
+                                        INNER JOIN customer ON accomodation.customer_id = customer.id
+                                        INNER JOIN bed ON bed.id = accomodation.bed_id
+                                        INNER JOIN room ON bed.room_id = room.id
+                                        WHERE '" . $date . "' between date_start and date_end;");
+        $result->execute();
+        //echo "<pre>";$result->debugDumpParams();die;
+        $result = $result->fetchAll(PDO::FETCH_ASSOC);
+        $accomodationNum = count($result);
+        $accomodationListHTML = '<div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-3 text-left">
+                                    <!--a href="' . URL . 'accomodation/update" target="_blank">
+                                        <i class="fa fa-plus-circle accomodation-icon"></i></a -->
+                                </div>
+                                <div class="col-sm-6 text-center">
+                                    <strong>Accomodations on ' . date("d M Y", strtotime($date)) . '</strong>
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    
+                                </div>
+                            </div>
+                        </div>';
+        if ($accomodationNum <= 0) {
+            $accomodationListHTML .= '<div style="margin: 60px 0;text-align: center;">
+                                    No accomodations on selected day
+                                </div>';
+        } else {
+            foreach ($result as $row) {
+                $dateString = "'" . $date . "'";
+                $accomodation = "'#accomodation-" . $row['id'] . "'";
+                $accomodationListHTML .= '<div class="col-sm-12" style="background-color:' . $row['color'] . ';line-height:30px;">
+                                        <div class="row">
+                                            <div class="col-sm-12 accomodation-list-content-section">
+                                                <a href="javascript:" onclick="deleteAccomodationConfirm(' . $accomodation . ');" class="delete-btn-style" style="float:left; padding-top: 2px;">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                                <a href="javascript:" onclick="editAccomodation(' . $row['id'] . ');" class="delete-btn-style" style="float:left; padding-top: 0px;">
+                                                    <i class="far fa-edit"></i>
+                                                </a>
+                                                <div class="accomodation-details-popup-wrapper text-left" style="float:left" onclick="toggleAccomodationPopup(&#39;#accomodation-details-' . $row['id'] . '&#39;)">
+                                                    <strong class="lower-3">' . $row['name'] . " " . $row['surname'] . '</strong>
+                                                    <div id="accomodation-details-' . $row['id'] . '" class="accomodation-details-popup col-sm-12"><hr>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class=" text-left">
+                                                                    <strong>Accomodation:</strong><br>
+                                                                    ' . $row['description'] . '<br><br>
+                                                                    
+                                                                </div>
+                                                            </div>';
+                $accomodationListHTML .=                           '</div>
+                                                            <div class="col-sm-12">
+                                                                <hr>
+                                                                Comment:<br>' . $row['comment'] . '<br>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="accomodation-' . $row['id'] . '" class="accomodation-id none">
+                                        <div style="padding:10px;">Res želiš brisat? <span class="delete-dialog" onclick="deleteAccomodation(' . $row['id'] . ', ' . $dateString . ');">DA</span> <span class="delete-dialog" onclick="deleteCancel();">NE</span></div>
+                                    </div>';
+            }
+        }
+        return $accomodationListHTML;
     }
 }

@@ -4,13 +4,22 @@ function deleteConfirm(eventId) {
     $(eventId).slideDown();
 }
 
+function deleteAccomodationConfirm(accomodationId) {
+    $(".accomodation-id").slideUp();
+    $("#accomodation-details-" . accomodationId).slideUp();
+    $(accomodationId).slideDown();
+}
+
 function deleteCancel() {
     $(".event-id").slideUp();
 }
 
 function toggleEventPopup(eventId) {
-    console.log(eventId);
     $(eventId).slideToggle();
+}
+
+function toggleAccomodationPopup(accomodationId) {
+    $(accomodationId).slideToggle();
 }
 
 function selectInstructor(instructor) {
@@ -78,10 +87,21 @@ $(document).ready(function () {
         } else {
             $('#event_list').slideUp('fast');
         }
+        if( $(e.target).closest("#accomodation_list").length > 0 ) {
+            return false;
+        } else {
+            $('#accomodation_list').slideUp('fast');
+        }
         if( $(e.target).closest("#add_event_section, #add_event_icon").length > 0 ) {
             return false;
         } else {
             $('#add_event_section').slideUp('fast');
         }
+        if( $(e.target).closest("#add_accomodation_section").length > 0 ) {
+            return false;
+        } else {
+            $('#add_accomodation_section').slideUp('fast');
+        }
+        
     });
 });

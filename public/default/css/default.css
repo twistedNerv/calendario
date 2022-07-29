@@ -274,13 +274,16 @@ table td {
     margin: 0 0 0 -35px;
     padding-top: 5px;
 }
+.accomodation-details-popup,
 .event-details-popup {
     display: none;
 }
+.accomodation-details-popup-wrapper,
 .event-details-popup-wrapper {
     line-height: 20px;
     font-size: 14px;
 }
+.accomodation-details-popup-wrapper:hover,
 .event-details-popup-wrapper:hover {
     cursor: pointer;
 }
@@ -295,6 +298,7 @@ table td {
     cursor: pointer;
     color: #309c68;
 }
+#add_accomodation_section, 
 #add_event_section {
     overflow-y: scroll;
     height: 80%;
