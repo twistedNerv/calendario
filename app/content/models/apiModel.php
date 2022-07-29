@@ -90,10 +90,10 @@ class apiModel extends model {
                 if ($eventNum > 0) {
                     $counter = 1;
                     foreach ($result as $row) {
-                        if ($counter <= 4) {
+                        if ($counter <= 8) {
                             $hasNotice = ($row['comment'] != "") ? "*" : "";
                             $calendar .= '<span class="namespan" style="background-color:' . $row['color'] . ';color:' . $this->template->readableColour($row['color']) . ';">';
-                            $calendar .= $row['start'] . '<br>' . $row['title'] . $hasNotice;
+                            $calendar .= $row['start'] . ' ' . $row['title'] . $hasNotice;
                             $calendar .= '</span>';
                         } else {
                             $calendar .= '<span class="namespan" style="font-size:20px;font-weight:bold;line-height:0px;position:relative;top:-2px;">...</span>';

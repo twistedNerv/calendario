@@ -44,7 +44,7 @@
 		</div>
 		<div class='form-group'>
 			<label for='room-color'>Color</label>
-			<input type='color' class='form-control' name='room-color' id='room-color' placeholder='' value='<?php echo ($data['selectedRoom']->color) ? $data['selectedRoom']->color : ''; ?>'>
+			<input type='color' class='form-control' style='height:30px;' name='room-color' id='room-color' placeholder='' value='<?php echo ($data['selectedRoom']->color) ? $data['selectedRoom']->color : ''; ?>'>
 		</div>
             <button type="submit" class="btn btn-primary">Submit</button>
             <a class='btn btn-danger' href="<?= URL ?>room/update">Cancel</a>
