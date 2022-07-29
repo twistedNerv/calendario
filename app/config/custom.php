@@ -7,7 +7,7 @@ $mainSettings = [
     'TEMPLATE' => 'default',
     'ORGANIZATION' => 'demo',
     'TITLE' => 'school3s',
-    'HEADER_TITLE' => 'school3s',
+    'HEADER_TITLE' => 'Calendario',
     //MySql
     'DB_HOST' => 'localhost',
     'DB_USERNAME' => 'root',

@@ -24,27 +24,44 @@ class apiModel extends model {
         $boxDisplay = ($totalDaysOfMonthDisplay <= 35) ? 35 : 42;
 
         $calendar = "<div id='calender_section'>
-            <h2>
-                <a href='javascript:void(0);' onclick='getCalendar(&quot;calendar_div&quot;, &quot;" . date('Y', strtotime($date . ' - 1 Month')) . "&quot;, &quot;" . date('m', strtotime($date . ' - 1 Month')) . "&quot;);'>&lt;&lt;</a>
-                <select name='month_dropdown' class='month_dropdown dropdown'>" . $this->tools->getAllMonths($dateMonth) . "</select>
-                <select name='year_dropdown' class='year_dropdown dropdown'>" . $this->tools->getYearList($dateYear) . "</select>
-                <a href='javascript:void(0);' onclick='getCalendar(&quot;calendar_div&quot;, &quot;" . date("Y", strtotime($date . ' + 1 Month')) . "&quot;, &quot;" . date("m", strtotime($date . ' + 1 Month')) . "&quot;);'>&gt;&gt;</a>
-                <a href='javascript:void(0);' id='add_event_icon' onclick='$(&quot;#add_event_section&quot;).slideToggle()'><i class='fa fa-calendar-plus'></i></a>
-            </h2>
-            <div id='event_list' class='none'></div>
-            <div id='calender_section_top'>
-                <ul>
-                    <li>Mon</li>
-                    <li>Tue</li>
-                    <li>Wed</li>
-                    <li>Thu</li>
-                    <li>Fri</li>
-                    <li>Sat</li>
-                    <li>Sun</li>
-                </ul>
-            </div>
-            <div id='calender_section_bot'>
-                <ul>";
+                        <div class='col-sm-12'>
+                            <div class='row'>
+                                <div class='col-sm-3 text-left'>
+                                    <a href='" . URL . "home/accomodation' id='swich_calendar_icon'>
+                                        <i class='fa fa-bed'></i> accomodations
+                                    </a>
+                                </div>
+                                <div class='col-sm-6 calendar-title'>
+                                    Events
+                                </div>
+                                <div class='col-sm-3 text-right'>
+                                    <a href='javascript:void(0);' id='add_event_icon' onclick='$(&quot;#add_event_section&quot;).slideToggle()'>
+                                        add <i class='fa fa-calendar-plus'></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class='h2custom'>
+                        <a href='javascript:void(0);' onclick='getCalendar(&quot;calendar_div&quot;, &quot;" . date('Y', strtotime($date . ' - 1 Month')) . "&quot;, &quot;" . date('m', strtotime($date . ' - 1 Month')) . "&quot;);'>&lt;&lt;</a>
+                        <select name='month_dropdown' class='month_dropdown dropdown'>" . $this->tools->getAllMonths($dateMonth) . "</select>
+                        <select name='year_dropdown' class='year_dropdown dropdown'>" . $this->tools->getYearList($dateYear) . "</select>
+                        <a href='javascript:void(0);' onclick='getCalendar(&quot;calendar_div&quot;, &quot;" . date("Y", strtotime($date . ' + 1 Month')) . "&quot;, &quot;" . date("m", strtotime($date . ' + 1 Month')) . "&quot;);'>&gt;&gt;</a>
+                    </h2>
+                    <div id='event_list' class='none'></div>
+                    <div id='calender_section_top'>
+                        <ul>
+                            <li>Mon</li>
+                            <li>Tue</li>
+                            <li>Wed</li>
+                            <li>Thu</li>
+                            <li>Fri</li>
+                            <li>Sat</li>
+                            <li>Sun</li>
+                        </ul>
+                    </div>
+                    <div id='calender_section_bot'>
+                        <ul>";
 
         $dayCount = 1;
         for ($cb = 1; $cb <= $boxDisplay; $cb++) {
@@ -292,12 +309,30 @@ class apiModel extends model {
         $boxDisplay = ($totalDaysOfMonthDisplay <= 35) ? 35 : 42;
 
         $calendar = "<div id='calender_section'>
-            <h2>
+                        <div class='col-sm-12'>
+                            <div class='row'>
+                                <div class='col-sm-3 text-left'>
+                                    <a href='" . URL . "home/index' id='swich_calendar_icon'>
+                                        <i class='fa fa-spa'></i> events
+                                    </a>
+                                </div>
+                                <div class='col-sm-6 calendar-title'>
+                                    Accomodation
+                                </div>
+                                <div class='col-sm-3 text-right'>
+                                    <a href='javascript:void(0);' id='add_event_icon' onclick='$(&quot;#add_accomodation_section&quot;).slideToggle()'>
+                                        <i class='fa fa-calendar-plus'></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            <h2 class='h2custom'>
                 <a href='javascript:void(0);' onclick='getAccomodationCalendar(&quot;calendar_div&quot;, &quot;" . date('Y', strtotime($date . ' - 1 Month')) . "&quot;, &quot;" . date('m', strtotime($date . ' - 1 Month')) . "&quot;);'>&lt;&lt;</a>
                 <select name='month_dropdown' class='month_dropdown dropdown'>" . $this->tools->getAllMonths($dateMonth) . "</select>
                 <select name='year_dropdown' class='year_dropdown dropdown'>" . $this->tools->getYearList($dateYear) . "</select>
                 <a href='javascript:void(0);' onclick='getAccomodationCalendar(&quot;calendar_div&quot;, &quot;" . date("Y", strtotime($date . ' + 1 Month')) . "&quot;, &quot;" . date("m", strtotime($date . ' + 1 Month')) . "&quot;);'>&gt;&gt;</a>
-                <a href='javascript:void(0);' id='add_event_icon' onclick='$(&quot;#add_event_section&quot;).slideToggle()'><i class='fa fa-calendar-plus'></i></a>
+                
             </h2>
             <div id='accomodation_list' class='none'></div>
             <div id='calender_section_top'>

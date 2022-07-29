@@ -7,7 +7,9 @@ body{ font-family: sans-serif;}
 .notice-field {width: 45%;height: 30px;}
 #calendar_div {width:100%;}
 #calender_section {
-    margin:30px auto 0;
+    //margin:30px auto 0;
+    background-color: #444;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.2) inset;
 }
 #add_event_section { 
     position: relative;

@@ -137,7 +137,7 @@ h5d {
     float: left;
 }
 a {
-    color: #836853;
+    color: #A38873;
 }
 a:hover {
     text-decoration: none;
@@ -298,10 +298,12 @@ table td {
     cursor: pointer;
     color: #309c68;
 }
-#add_accomodation_section, 
 #add_event_section {
     overflow-y: scroll;
     height: 80%;
+}
+#add_accomodation_section {
+    overflow-y: scroll;
 }
 .add-collapser label {
     margin-top: 8px;
@@ -334,10 +336,27 @@ table td {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.2) inset;
 }
 #add_event_icon {
-    position: absolute;
-    right: 30px;
-    top: 37px;
+    position: relative;
+    top: 5px;
+}
+#swich_calendar_icon {
+    position: relative;
+    top: 5px;
+}
+#swich_calendar_icon i {
+    font-size: 25px;
 }
 .fa-calendar-plus {
     font-size: 28px;
+}
+.calendar-title {
+    font-size: 20px;
+    color: #ccc;
+    margin: 5px 0;
+}
+.h2custom {
+    margin: 0;
+}
+.h2custom a {
+    font-size: 20px;
 }
