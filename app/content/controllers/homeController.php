@@ -16,7 +16,15 @@ class homeController extends controller {
         $this->view->render("home/index");
         //$this->view->render("api/getCalendarAction/2022/07", false);
     }
-
     
-
+    public function accomodationAction() {
+        $accomodationModel = $this->loadModel('accomodation');
+        $accomodations = $accomodationModel->getAll();
+        $apiModel = $this->loadModel('api');
+        $accomodationCalendar = $apiModel->getAccomodationCalendar();
+        $this->view->assign("accomodations", $accomodations);
+        $this->view->assign("accomodation_calendar", $accomodationCalendar);
+        $this->view->render("home/accomodation");
+        //$this->view->render("api/getCalendarAction/2022/07", false);
+    }
 }

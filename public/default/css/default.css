@@ -284,6 +284,10 @@ table td {
 .event-details-popup-wrapper:hover {
     cursor: pointer;
 }
+.lower-3 {
+    position: relative;
+    top: 4px;
+}
 .event-icon {
     font-size: 25px;
 }

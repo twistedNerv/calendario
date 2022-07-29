@@ -198,7 +198,7 @@ class apiModel extends model {
                                                     <i class="far fa-edit"></i>
                                                 </a>
                                                 <div class="event-details-popup-wrapper text-left" style="float:left" onclick="toggleEventPopup(&#39;#event-details-' . $row['event_id'] . '&#39;)">
-                                                    <strong>' . $row['event_title'] . '</strong> <i style="font-size: 12px;"> at ' . $row['event_start'] . '</i>
+                                                    <strong class="lower-3">' . $row['event_title'] . '</strong> <i style="font-size: 12px;" class="lower-3"> at ' . $row['event_start'] . '</i>
                                                     <div id="event-details-' . $row['event_id'] . '" class="event-details-popup col-sm-12"><hr>
                                                         <div class="row">
                                                             <div class="col-sm-4">
@@ -292,5 +292,103 @@ class apiModel extends model {
         $result = $this->db->prepare('DELETE FROM event_instructor WHERE event_id = :event_id');
         $result->bindParam(':event_id', $event_id);
         $result->execute();
+    }
+    
+    /**************************** ACCOMODATION **********************************/
+    public function getAccomodationCalendar($year = '', $month = '') {
+        $dateYear = ($year != '') ? $year : date("Y");
+        $dateMonth = ($month != '') ? sprintf("%02d", $month) : date("m");
+        $date = $dateYear . '-' . $dateMonth . '-01';
+        $currentMonthFirstDay = date("N", strtotime($date)) - 1;
+        $totalDaysOfMonth = cal_days_in_month(CAL_GREGORIAN, $dateMonth, $dateYear);
+        $totalDaysOfMonthDisplay = ($currentMonthFirstDay == 7) ? ($totalDaysOfMonth) : ($totalDaysOfMonth + $currentMonthFirstDay);
+        $boxDisplay = ($totalDaysOfMonthDisplay <= 35) ? 35 : 42;
+
+        $calendar = "<div id='calender_section'>
+            <h2>
+                <a href='javascript:void(0);' onclick='getAccomodationCalendar(&quot;calendar_div&quot;, &quot;" . date('Y', strtotime($date . ' - 1 Month')) . "&quot;, &quot;" . date('m', strtotime($date . ' - 1 Month')) . "&quot;);'>&lt;&lt;</a>
+                <select name='month_dropdown' class='month_dropdown dropdown'>" . $this->tools->getAllMonths($dateMonth) . "</select>
+                <select name='year_dropdown' class='year_dropdown dropdown'>" . $this->tools->getYearList($dateYear) . "</select>
+                <a href='javascript:void(0);' onclick='getAccomodationCalendar(&quot;calendar_div&quot;, &quot;" . date("Y", strtotime($date . ' + 1 Month')) . "&quot;, &quot;" . date("m", strtotime($date . ' + 1 Month')) . "&quot;);'>&gt;&gt;</a>
+                <a href='javascript:void(0);' id='add_event_icon' onclick='$(&quot;#add_event_section&quot;).slideToggle()'><i class='fa fa-calendar-plus'></i></a>
+            </h2>
+            <div id='accomodation_list' class='none'></div>
+            <div id='calender_section_top'>
+                <ul>
+                    <li>Mon</li>
+                    <li>Tue</li>
+                    <li>Wed</li>
+                    <li>Thu</li>
+                    <li>Fri</li>
+                    <li>Sat</li>
+                    <li>Sun</li>
+                </ul>
+            </div>
+            <div id='calender_section_bot'>
+                <ul>";
+
+        $dayCount = 1;
+        for ($cb = 1; $cb <= $boxDisplay; $cb++) {
+            if (($cb >= $currentMonthFirstDay + 1 || $currentMonthFirstDay == 7) && $cb <= ($totalDaysOfMonthDisplay)) {
+                $currentDate = $dateYear . '-' . $dateMonth . '-' . sprintf("%02d", $dayCount);
+                $eventNum = 0;
+                $result = $this->db->prepare("SELECT * FROM accomodation
+                                                WHERE CURDATE() between date_start and date_end;");
+                $result->execute();
+                $result = $result->fetchAll(PDO::FETCH_ASSOC);
+                $eventNum = count($result);
+                if (strtotime($currentDate) == strtotime(date("Y-m-d"))) {
+                    $calendar .= '<li date="' . $currentDate . '" class="grey date_cell">';
+                } elseif ($eventNum > 0) {
+                    $calendar .= '<li date="' . $currentDate . '" class="light_sky date_cell">';
+                } else {
+                    $calendar .= '<li date="' . $currentDate . '" class="date_cell">';
+                }
+                //Date cell
+                $calendar .= '<span>';
+                $calendar .= $dayCount;
+                $calendar .= '</span>';
+                if ($eventNum > 0) {
+                    $counter = 1;
+                    foreach ($result as $row) {
+                        if ($counter <= 4) {
+                            $hasNotice = ($row['comment'] != "") ? "*" : "";
+                            $calendar .= '<span class="namespan" style="background-color:' . $row['color'] . ';color:' . $this->template->readableColour($row['color']) . ';">';
+                            $calendar .= $row['start'] . '<br>' . $row['title'] . $hasNotice;
+                            $calendar .= '</span>';
+                        } else {
+                            $calendar .= '<span class="namespan" style="font-size:20px;font-weight:bold;line-height:0px;position:relative;top:-2px;">...</span>';
+                            break;
+                        }
+                        $counter++;
+                    }
+                }
+
+                //Hover event popup
+
+                if ($eventNum > 0) {
+                    $odsotnostGrammar = ($eventNum != 1) ? "events" : "event";
+                    $calendar .= '<div id="date_popup_' . $currentDate . '" class="date_popup_wrap none" onclick="getEvents(\'' . $currentDate . '\');">';
+                    $calendar .= '<div class="date_window">';
+                    $calendar .= '<div class="popup_event">' . $eventNum . ' ' . $odsotnostGrammar . '</div>';
+                } else {
+                    $calendar .= '<div id="date_popup_' . $currentDate . '" class="date_popup_wrap none" onclick="getEvents(\'' . $currentDate . '\');">';
+                    $calendar .= '<div class="date_window">';
+                    $calendar .= '<div class="popup_event">No events</div>';
+                }
+                //echo ($eventNum > 0) ? '<a href="javascript:;" onclick="getEvents(\'' . $currentDate . '\');">view events</a>' : '';
+                $calendar .= '</div></div>';
+
+                $calendar .= '</li>';
+                $dayCount++;
+            } else {
+                $calendar .= "<li><span>&nbsp;</span></li>";
+            }
+        }
+        $calendar .= "
+                </ul>
+            </div>
+        </div>";
+        return $calendar;
     }
 }

@@ -1,10 +1,10 @@
-<div class="col-sm-12" style="overflow-y: scroll; height: 100%;"> 
+<div class="col-sm-12" style="overflow-y: scroll; height: 100%;">
     <div class="row"> 
         <div id="calendar_div" class="board-section text-center">
-            <?= $data['calendar'] ?>
+            <?= $data['accomodation_calendar'] ?>
         </div>
         <div id="add_event_section" class="none">
-            <h2c>Add event</h2c>
+            <h2c>Add accomodation</h2c>
             <div class="add-collapser board-section">
                 <div class="col-sm-12 text-left" style="margin: 20px 5px;">
                     <div class="row">

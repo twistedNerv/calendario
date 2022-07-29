@@ -8,6 +8,16 @@ function getCalendar(target_div, year, month) {
     });
 }
 
+function getAccomodationCalendar(target_div, year, month) {
+    $.ajax({
+        type: 'GET',
+        url: URL + 'api/getAccomodationCalendar/' + year + '/' + month,
+        success: function (html) {
+            $('#' + target_div).html(html);
+        }
+    });
+}
+
 function getEvents(date) {
     $.ajax({
         type: 'GET',
