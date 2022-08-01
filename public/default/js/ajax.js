@@ -83,6 +83,38 @@ function addEvent() {
     }
 }
 
+function addAccomodation() {
+    customer = $("#selected-customer-id").val();
+    price = $("#accomodation-price").val();
+    room = $("#accomodation-room").val();
+    bed = $("#accomodation-bed").val();
+    date_from = $("#accomodation-date-from").val();
+    date_to = $("#accomodation-date-to").val();
+    if(date_to == "") date_to = date_from;
+    comment = $("#accomodation-comment").val();
+    if(date_from != "" && date_to != "") {
+        $.ajax({
+            type: 'POST',
+            url: URL + 'api/setNewAccomodation/',
+            data: ({customer:customer, price:price, room:room, bed:bed, date_from:date_from, date_to:date_to, comment:comment}),
+            success: function (data) {
+                var newDisplayDates = date_from.split("-");
+                getAccomodationCalendar('accomodation_calendar_div', newDisplayDates[0], newDisplayDates[1]);
+                $("#selected-customer-id").val('');
+                $("#accomodation-customer-search").val('');
+                $("#accomodation-price").val('');
+                $("#accomodation-room").val('');
+                $("#accomodation-bed").val('');
+                $("#accomodation-date-from").val('');
+                $("#accomodation-date-to").val('');
+                $('#add_accomodation_section').slideUp('fast');
+            }
+        });
+    } else {
+        $("#event-add-notification").html("Enter start date.");
+    }
+}
+
 function editEvent(event) {
     $('#event_list').slideUp('fast');
     $('#add_event_section').slideUp('fast');
@@ -123,6 +155,18 @@ function deleteEvent(eventId, date) {
     });
 }
 
+function deleteAccomodation(accomodationId, date) {
+    console.log(accomodationId);
+    $.ajax({
+        type: 'POST',
+        url: URL + 'api/removeAccomodation/' + accomodationId,
+        success: function () {
+            var newDisplayDates = date.split("-");
+            getAccomodationCalendar('accomodation_calendar_div', newDisplayDates[0], newDisplayDates[1]);
+        }
+    });
+}
+
 function run() {
     $.ajax({
         type: 'POST',
@@ -158,4 +202,31 @@ $(document).ready(function () {
             }
         });
     }, 500))
+    
+    $("#accomodation-customer-search").on('keyup', delay(function() {
+        search_string = $("#accomodation-customer-search").val();
+        $.ajax({
+            type: 'POST',
+            url: URL + 'api/searchAccomodationCustomer',
+            data: ({search_string:search_string}),
+            success: function (data) {
+                $('.list-accomodation-customer').hide().html(data).fadeIn("slow");
+            }
+        });
+    }, 500))
+    
+    $("#accomodation-room").on('change', function(){
+        optionSelected = $("option:selected", this).val();
+        $.ajax({
+            type: 'POST',
+            url: URL + 'api/getSelectedBeds',
+            data: ({room_id:optionSelected}),
+            success: function (data) {
+                $("#accomodation-bed").html('');
+                $.each(data, function(key, val){
+                    $("#accomodation-bed").append('<option value="'+val['id']+'">'+val['title']+'</option>');
+                });
+            }
+        });
+    });
 });

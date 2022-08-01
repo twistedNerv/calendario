@@ -14,6 +14,10 @@ function deleteCancel() {
     $(".event-id").slideUp();
 }
 
+function deleteAccomodationCancel() {
+    $(".accomodation-id").slideUp();
+}
+
 function toggleEventPopup(eventId) {
     $(eventId).slideToggle();
 }
@@ -52,6 +56,15 @@ function selectCustomer(customer) {
     code += "<input type='hidden' name='customertoeventid[]' class='diagnozaitem readonlyinput' value='" + customer_id + "' readonly></strong></div>";
     code += "</div></div>";
     $("#event-customers").append(code);
+}
+
+function selectAccomodationCustomer(customer) {
+    var customerArray = customer.split("_");
+    var customer_name = customerArray[0];
+    var customer_id = customerArray[1];
+    $("#accomodation-customer-search").val(customer_name);
+    $("#selected-customer-id").val(customer_id);
+    $('.list-accomodation-customer').hide();
 }
 
 function delay(callback, ms) {

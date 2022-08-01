@@ -22,6 +22,9 @@ class homeController extends controller {
         $accomodations = $accomodationModel->getAll();
         $apiModel = $this->loadModel('api');
         $accomodationCalendar = $apiModel->getAccomodationCalendar();
+        $roomModel = $this->loadModel('room');
+        $rooms = $roomModel->getAll();
+        $this->view->assign("rooms", $rooms);
         $this->view->assign("accomodations", $accomodations);
         $this->view->assign("accomodation_calendar", $accomodationCalendar);
         $this->view->render("home/accomodation");

@@ -10,7 +10,8 @@
                     <div class="row">
                                 <div class="col-sm-6">
                                     <label for="accomodation-customer-search">Customer</label>
-                                    <input type="text" name="accomodation-customer-search" id="accomodation-customer-search" placeholder="search customer...">
+                                    <input type="text" name="accomodation-customer-search" id="accomodation-customer-search" placeholder="search customer..." />
+                                    <input type="hidden" name="selected-customer-id" id="selected-customer-id" />
                                     <div class="list-accomodation-customer">
                                         <!-- here be customers dropdown -->
                                     </div>
@@ -19,16 +20,23 @@
                                     <!-- here be customers -->
                                 </div>
                         <div class="col-sm-6">
-                            <label for="accomodation-title">Room</label>
-                            <input type='text' class='form-control' name='accomodation-title' id='accomodation-title' placeholder='enter accomodation title...'>
+                            <label for="accomodation-room">Room</label><br>
+                            <select name="accomodation-room" id="accomodation-room" class="user-picker">
+                                <option value="" disabled selected>Select room</option>
+                                <?php foreach ($data['rooms'] as $singleRoom) { ?>
+                                    <option value="<?= $singleRoom['id'] ?>" style="background-color:<?= $singleRoom['color'] ?>"><?= $singleRoom['title'] ?></option>
+                                <?php } ?>
+                            </select>
                         </div>
                         <div class="col-sm-6">
                             <label for="accomodation-price">Price (per vacation)</label>
                             <input type='text' class='form-control' name='accomodation-price' id='accomodation-price' placeholder='enter price...'>
                         </div>
                         <div class="col-sm-6">
-                            <label for="accomodation-title">Bed</label>
-                            <input type='text' class='form-control' name='accomodation-title' id='accomodation-title' placeholder='enter accomodation title...'>
+                            <label for="accomodation-bed">Bed</label>
+                            <select class='form-control' name='accomodation-bed' id='accomodation-bed'>
+                                <!-- here be beds -->
+                            </select>
                         </div>
                         <div class="col-sm-6">
                             <hr>

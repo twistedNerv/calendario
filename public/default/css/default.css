@@ -290,6 +290,7 @@ table td {
 .lower-3 {
     position: relative;
     top: 4px;
+    color: #444;
 }
 .event-icon {
     font-size: 25px;

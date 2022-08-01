@@ -92,7 +92,7 @@ class apiModel extends model {
                     foreach ($result as $row) {
                         if ($counter <= 8) {
                             $hasNotice = ($row['comment'] != "") ? "*" : "";
-                            $calendar .= '<span class="namespan" style="background-color:' . $row['color'] . ';color:' . $this->template->readableColour($row['color']) . ';">';
+                            $calendar .= '<span class="namespan" style="background-color:' . $row['color'] . ';color:#' . $this->template->readableColour($row['color']) . ';">';
                             $calendar .= $row['start'] . ' ' . $row['title'] . $hasNotice;
                             $calendar .= '</span>';
                         } else {
@@ -239,7 +239,7 @@ class apiModel extends model {
                                         </div>
                                     </div>
                                     <div id="event-' . $row['event_id'] . '" class="event-id none">
-                                        <div style="padding:10px;">Res želiš brisat? <span class="delete-dialog" onclick="deleteEvent(' . $row['event_id'] . ', ' . $dateString . ');">DA</span> <span class="delete-dialog" onclick="deleteCancel();">NE</span></div>
+                                        <div style="padding:10px;">Do you really want to delete? <span class="delete-dialog" onclick="deleteEvent(' . $row['event_id'] . ', ' . $dateString . ');">YES</span> <span class="delete-dialog" onclick="deleteCancel();">NO</span></div>
                                     </div>';
             }
         }
@@ -286,6 +286,24 @@ class apiModel extends model {
         return $output;
     }
     
+    public function searchAccomodationCustomer($searchString) {
+        $result = $this->db->prepare("SELECT * FROM customer WHERE name LIKE :searchstring OR surname LIKE :searchstring LIMIT 10");
+        $result->bindParam(':searchstring', $searchString);
+        $result->execute();
+        //echo "<pre>";$result->debugDumpParams();die;
+        $result = $result->fetchAll(PDO::FETCH_ASSOC);
+        $count = count($result);
+        //echo $count;
+        $output = "<div id='tmpbox' class='tmpbox'>";
+        $output .= "<ul class='tmpbox-wrapper'>";
+        foreach ($result as $singleRow) {
+        //while($singleRow = $result->fetchAll(PDO::FETCH_ASSOC)) {
+            $output .= "<li class='tmpbox-single-result' onclick='selectAccomodationCustomer(&#39;" . $singleRow['name'] . " " . $singleRow['surname'] . "_" . $singleRow['id'] . "&#39;)'>" . $singleRow['name'] . " " . $singleRow['surname'] . "</li>";
+        }
+        $output .= "</ul></div>";
+        return $output;
+    }
+    
     public function deleteEvent($event_id) {
         $result = $this->db->prepare('DELETE FROM event WHERE id = :event_id');
         $result->bindParam(':event_id', $event_id);
@@ -317,7 +335,7 @@ class apiModel extends model {
                                     </a>
                                 </div>
                                 <div class='col-sm-6 calendar-title'>
-                                    Accomodation
+                                    Accomodations
                                 </div>
                                 <div class='col-sm-3 text-right'>
                                     <a href='javascript:void(0);' id='add_event_icon' onclick='$(&quot;#add_accomodation_section&quot;).slideToggle()'>
@@ -378,7 +396,7 @@ class apiModel extends model {
                     foreach ($result as $row) {
                         if ($counter <= 8) {
                             $hasNotice = ($row['comment'] != "") ? "*" : "";
-                            $calendar .= '<span class="namespan" style="background-color:' . $row['color'] . ';color:' . $this->template->readableColour($row['color']) . ';">';
+                            $calendar .= '<span class="namespan" style="background-color:' . $row['color'] . ';color:#' . $this->template->readableColour($row['color']) . ';">';
                             $calendar .= $row['name'] . ' ' . $row['surname'] . $hasNotice;
                             $calendar .= '</span>';
                         } else {
@@ -420,11 +438,22 @@ class apiModel extends model {
     public function getAccomodations($date) {
         $eventListHTML = '';
         $date = $date ? $date : date("Y-m-d");
-        $result = $this->db->prepare("SELECT * FROM accomodation
-                                        INNER JOIN customer ON accomodation.customer_id = customer.id
-                                        INNER JOIN bed ON bed.id = accomodation.bed_id
-                                        INNER JOIN room ON bed.room_id = room.id
-                                        WHERE '" . $date . "' between date_start and date_end;");
+        $result = $this->db->prepare("SELECT 
+                                        accomodation.id as id,
+                                        accomodation.date_start as date_start,
+                                        accomodation.date_end as date_end,
+                                        accomodation.room_id as room_id,
+                                        accomodation.bed_id as bed_id,
+                                        accomodation.comment as comment,
+                                        customer.name as name,
+                                        customer.surname as surname,
+                                        room.color as color,
+                                        room.description as description
+                                    FROM accomodation
+                                    INNER JOIN customer ON accomodation.customer_id = customer.id
+                                    INNER JOIN bed ON bed.id = accomodation.bed_id
+                                    INNER JOIN room ON bed.room_id = room.id
+                                    WHERE '" . $date . "' between date_start and date_end;");
         $result->execute();
         //echo "<pre>";$result->debugDumpParams();die;
         $result = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -457,9 +486,6 @@ class apiModel extends model {
                                                 <a href="javascript:" onclick="deleteAccomodationConfirm(' . $accomodation . ');" class="delete-btn-style" style="float:left; padding-top: 2px;">
                                                     <i class="fas fa-times"></i>
                                                 </a>
-                                                <a href="javascript:" onclick="editAccomodation(' . $row['id'] . ');" class="delete-btn-style" style="float:left; padding-top: 0px;">
-                                                    <i class="far fa-edit"></i>
-                                                </a>
                                                 <div class="accomodation-details-popup-wrapper text-left" style="float:left" onclick="toggleAccomodationPopup(&#39;#accomodation-details-' . $row['id'] . '&#39;)">
                                                     <strong class="lower-3">' . $row['name'] . " " . $row['surname'] . '</strong>
                                                     <div id="accomodation-details-' . $row['id'] . '" class="accomodation-details-popup col-sm-12"><hr>
@@ -483,7 +509,7 @@ class apiModel extends model {
                                         </div>
                                     </div>
                                     <div id="accomodation-' . $row['id'] . '" class="accomodation-id none">
-                                        <div style="padding:10px;">Res želiš brisat? <span class="delete-dialog" onclick="deleteAccomodation(' . $row['id'] . ', ' . $dateString . ');">DA</span> <span class="delete-dialog" onclick="deleteCancel();">NE</span></div>
+                                        <div style="padding:10px;">Do you really want to delete? <span class="delete-dialog" onclick="deleteAccomodation(' . $row['id'] . ', ' . $dateString . ');">YES</span> <span class="delete-dialog" onclick="deleteAccomodationCancel();">NO</span></div>
                                     </div>';
             }
         }
