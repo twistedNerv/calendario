@@ -30,4 +30,29 @@ class homeController extends controller {
         $this->view->render("home/accomodation");
         //$this->view->render("api/getCalendarAction/2022/07", false);
     }
+    
+    public function guestAction($hash) {
+        $customerModel = $this->loadModel('customer');
+        $customer = $customerModel->getOneBy('hash', $hash);
+        $event_customerModel = $this->loadModel('event_customer');
+        $events_cust = $event_customerModel->getAllBy('customer_id', $customer->id);
+        $events = [];
+        foreach ($events_cust as $singleEvent) {
+            $eventModel = $this->loadModel('event');
+            array_push($events, $eventModel->getOneBy('id', $singleEvent['event_id']));
+        }
+        $this->view->assign("events", $events);
+        $this->view->assign("sections", $this->setSectionArray());
+        $this->view->render("home/guest", false);
+    }
+    
+    private function setSectionArray() {
+        $sectionModel = $this->loadModel('section');
+        $sections = $sectionModel->getAll();
+        $result = [];
+        foreach ($sections as $singleSection) {
+            $result[$singleSection['id']] = $singleSection;
+        }
+        return $result;
+    }
 }

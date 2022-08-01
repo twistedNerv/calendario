@@ -21,8 +21,10 @@ class customerController extends controller {
             $customerModel->getOneBy("id", $id);
         }
         if ($this->tools->getPost("action") == "handlecustomer") {
-            if ($id == 0)
-                $customerModel->setHash(uniqid());
+            if ($id == 0) {
+                if ($customerModel->getHash() === null)
+                    $customerModel->setHash(uniqid());
+            }
             $customerModel->setName($this->tools->getPost("customer-name"));
             $customerModel->setSurname($this->tools->getPost("customer-surname"));
             $customerModel->setGender($this->tools->getPost("customer-gender"));

@@ -1,5 +1,6 @@
 CREATE TABLE `customer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hash` varchar(45) COLLATE utf8_slovenian_ci NOT NULL,
   `name` varchar(45) COLLATE utf8_slovenian_ci NOT NULL,
   `surname` varchar(45) COLLATE utf8_slovenian_ci NOT NULL,
   `gender` int(11) DEFAULT NULL,
