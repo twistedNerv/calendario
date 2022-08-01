@@ -1,6 +1,6 @@
 <div class="col-sm-12" style="overflow-y: scroll; height: 100%;">
     <div class="row"> 
-        <div id="calendar_div" class="board-section text-center">
+        <div id="accomodation_calendar_div" class="board-section text-center">
             <?= $data['accomodation_calendar'] ?>
         </div>
         <div id="add_accomodation_section" class="none">

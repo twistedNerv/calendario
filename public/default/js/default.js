@@ -81,6 +81,22 @@ $(document).ready(function () {
     $('#calendar_div').delegate('.year_dropdown', 'change', function () {
         getCalendar('calendar_div', $('.year_dropdown').val(), $('.month_dropdown').val());
     });
+    /**************** accomodation ******************/
+    $('#accomodation_calendar_div').delegate('.date_cell', 'mouseenter', function () {
+        date = $(this).attr('date');
+        $(".date_popup_wrap").fadeOut();
+        $("#date_popup_" + date).fadeIn('fast');
+    });
+    $('#accomodation_calendar_div').delegate('.date_cell', 'mouseleave', function () {
+        //$(".date_popup_wrap").fadeOut('fast');
+        $(".date_popup_wrap").hide();
+    });
+    $('#accomodation_calendar_div').delegate('.accomodation_month_dropdown', 'change', function () {
+        getAccomodationCalendar('accomodation_calendar_div', $('.accomodation_year_dropdown').val(), $('.accomodation_month_dropdown').val());
+    });
+    $('#accomodation_calendar_div').delegate('.accomodation_year_dropdown', 'change', function () {
+        getAccomodationCalendar('accomodation_calendar_div', $('.accomodation_year_dropdown').val(), $('.accomodation_month_dropdown').val());
+    });
     $(document).click(function (e) {
         if( $(e.target).closest("#event_list").length > 0 ) {
             return false;

@@ -13,7 +13,7 @@ class apiController extends controller {
     
     public function getAccomodationCalendarAction($year = '', $month = '') {
         $apiModel = $this->loadModel('api');
-        echo $apiModel->getCalendar($year, $month);
+        echo $apiModel->getAccomodationCalendar($year, $month);
     }
     
     public function getEventsAction($date) {

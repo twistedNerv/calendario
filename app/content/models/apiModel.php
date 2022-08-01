@@ -328,10 +328,10 @@ class apiModel extends model {
                         </div>
                     </div>
             <h2 class='h2custom'>
-                <a href='javascript:void(0);' onclick='getAccomodationCalendar(&quot;calendar_div&quot;, &quot;" . date('Y', strtotime($date . ' - 1 Month')) . "&quot;, &quot;" . date('m', strtotime($date . ' - 1 Month')) . "&quot;);'>&lt;&lt;</a>
-                <select name='month_dropdown' class='month_dropdown dropdown'>" . $this->tools->getAllMonths($dateMonth) . "</select>
-                <select name='year_dropdown' class='year_dropdown dropdown'>" . $this->tools->getYearList($dateYear) . "</select>
-                <a href='javascript:void(0);' onclick='getAccomodationCalendar(&quot;calendar_div&quot;, &quot;" . date("Y", strtotime($date . ' + 1 Month')) . "&quot;, &quot;" . date("m", strtotime($date . ' + 1 Month')) . "&quot;);'>&gt;&gt;</a>
+                <a href='javascript:void(0);' onclick='getAccomodationCalendar(&quot;accomodation_calendar_div&quot;, &quot;" . date('Y', strtotime($date . ' - 1 Month')) . "&quot;, &quot;" . date('m', strtotime($date . ' - 1 Month')) . "&quot;);'>&lt;&lt;</a>
+                <select name='accomodation_month_dropdown' class='accomodation_month_dropdown dropdown'>" . $this->tools->getAllMonths($dateMonth) . "</select>
+                <select name='accomodation_year_dropdown' class='accomodation_year_dropdown dropdown'>" . $this->tools->getYearList($dateYear) . "</select>
+                <a href='javascript:void(0);' onclick='getAccomodationCalendar(&quot;accomodation_calendar_div&quot;, &quot;" . date("Y", strtotime($date . ' + 1 Month')) . "&quot;, &quot;" . date("m", strtotime($date . ' + 1 Month')) . "&quot;);'>&gt;&gt;</a>
                 
             </h2>
             <div id='accomodation_list' class='none'></div>
