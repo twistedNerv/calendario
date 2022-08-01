@@ -14,8 +14,13 @@
     </head>
     <body>
         <div class="container col-sm-8 text-center">
+            <?=$data['customer']->name?> <?=$data['customer']->surname?>
+            <div class="col-sm-12">
+                Accomodation from <?=date_format(date_create($data['accomodations']->date_start), "d.m.Y")?> to <?=date_format(date_create($data['accomodations']->date_end), "d.m.Y")?>
+            </div>
             <?php 
             foreach ($data['events'] as $singleEvent) { ?>
+            <hr>
             <div class="row">
                 <div class="col-sm-12">
                     <h4><?=$singleEvent->title?></h4>

@@ -36,12 +36,16 @@ class homeController extends controller {
         $customer = $customerModel->getOneBy('hash', $hash);
         $event_customerModel = $this->loadModel('event_customer');
         $events_cust = $event_customerModel->getAllBy('customer_id', $customer->id);
+        $accomodationModel = $this->loadModel('accomodation');
+        $accomodations = $accomodationModel->getOneBy('customer_id', $customer->id);
         $events = [];
         foreach ($events_cust as $singleEvent) {
             $eventModel = $this->loadModel('event');
             array_push($events, $eventModel->getOneBy('id', $singleEvent['event_id']));
         }
+        $this->view->assign("customer", $customer);
         $this->view->assign("events", $events);
+        $this->view->assign("accomodations", $accomodations);
         $this->view->assign("sections", $this->setSectionArray());
         $this->view->render("home/guest", false);
     }
