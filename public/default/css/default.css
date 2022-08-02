@@ -278,6 +278,9 @@ table td {
 .event-details-popup {
     display: none;
 }
+.accomodation-details-popup {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.3) inset;
+}
 .accomodation-details-popup-wrapper,
 .event-details-popup-wrapper {
     line-height: 20px;
@@ -331,6 +334,22 @@ table td {
     left: -25px;
     border-bottom: 1px solid #ddd;
     width: 100%;
+}
+.tmpbox-single-result:hover {
+    background-color: #ccc;
+    cursor: pointer;
+}
+.tmpbox-close:hover {
+    cursor: pointer;
+    color: black;
+}
+.deletespan:hover {
+    cursor: pointer;
+}
+.list-event-customer,
+.list-event-instructor {
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.2) inset;
 }
 .event-list-content-section, .accomodation-list-content-section {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.2) inset;

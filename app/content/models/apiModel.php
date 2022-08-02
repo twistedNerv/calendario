@@ -255,6 +255,7 @@ class apiModel extends model {
         $count = count($result);
         //echo $count;
         $output = "<div id='tmpbox' class='tmpbox'>";
+        $output = "<div class='tmpbox-close' onclick='$(&quot;.list-event-customer&quot;).hide();$(&quot;#event-customer-search&quot;).val(&quot;&quot;);'>X</div>";
         $output .= "<ul class='tmpbox-wrapper'>";
         foreach ($result as $singleRow) {
         //while($singleRow = $result->fetchAll(PDO::FETCH_ASSOC)) {
@@ -273,6 +274,7 @@ class apiModel extends model {
         $count = count($result);
         //echo $count;
         $output = "<div id='tmpbox' class='tmpbox'>";
+        $output = "<div class='tmpbox-close' onclick='$(&quot;.list-event-instructor&quot;).hide();$(&quot;#event-instructor-search&quot;).val(&quot;&quot;);'>X</div>";
         $output .= "<ul class='tmpbox-wrapper'>";
         foreach ($result as $singleRow) {
         //while($singleRow = $result->fetchAll(PDO::FETCH_ASSOC)) {
@@ -291,6 +293,7 @@ class apiModel extends model {
         $count = count($result);
         //echo $count;
         $output = "<div id='tmpbox' class='tmpbox'>";
+        $output = "<div class='tmpbox-close' onclick='$(&quot;.list-accomodation-customer&quot;).hide();$(&quot;#accomodation-customer-search&quot;).val(&quot;&quot;);'>X</div>";
         $output .= "<ul class='tmpbox-wrapper'>";
         foreach ($result as $singleRow) {
         //while($singleRow = $result->fetchAll(PDO::FETCH_ASSOC)) {
@@ -499,15 +502,17 @@ class apiModel extends model {
                                                         <div class="row">
                                                             <div class="col-sm-12">
                                                                 <div class=" text-left">
-                                                                    <strong>Accomodation:</strong><br>
-                                                                    ' . $row['description'] . '<br><br>
-                                                                    
+                                                                    From <strong>' . date("d.m.Y", strtotime($row['date_start'])) . '</strong> until <strong>' . date("d.m.Y", strtotime($row['date_end'])) . '</strong>
+                                                                    <br><br>
                                                                 </div>
                                                             </div>';
-                $accomodationListHTML .=                           '</div>
+                $accomodationListHTML .=                   '<div class="col-sm-12">
+                                                                Room: <strong>' . $row['room_title'] . '</strong><br>
+                                                                Bed: <strong>' . $row['bed_title'] . '</strong><br>
+                                                            </div>
                                                             <div class="col-sm-12">
                                                                 <hr>
-                                                                Comment:<br>' . $row['comment'] . '<br>
+                                                                ' . $row['comment'] . '
                                                             </div>
                                                         </div>
                                                     </div>
