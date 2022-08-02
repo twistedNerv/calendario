@@ -41,14 +41,22 @@ class homeController extends controller {
         $events = [];
         foreach ($events_cust as $singleEvent) {
             $eventModel = $this->loadModel('event');
-            array_push($events, $eventModel->getOneBy('id', $singleEvent['event_id']));
+            $currentEvent = $eventModel->getOneBy('id', $singleEvent['event_id']);
+            $currentEvent->date = $currentEvent->date . " " . $currentEvent->start;
+            array_push($events, $currentEvent);
         }
+        usort($events, function($a, $b) {
+            return new DateTime($a->date) <=> new DateTime($b->date);
+        });
         $this->view->assign("customer", $customer);
         $this->view->assign("events", $events);
         $this->view->assign("accomodations", $accomodations);
         $this->view->assign("sections", $this->setSectionArray());
         $this->view->render("home/guest", false);
     }
+    
+    
+    
     
     private function setSectionArray() {
         $sectionModel = $this->loadModel('section');

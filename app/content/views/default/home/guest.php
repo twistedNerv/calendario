@@ -14,39 +14,57 @@
     </head>
     <body>
         <div class="container col-sm-8 text-center">
-            <?=$data['customer']->name?> <?=$data['customer']->surname?>
-            <div class="col-sm-12">
-                Accomodation from <?=date_format(date_create($data['accomodations']->date_start), "d.m.Y")?> to <?=date_format(date_create($data['accomodations']->date_end), "d.m.Y")?>
+            <div class="col-sm-12 guest-header">
+                <?=$data['customer']->name?> <?=$data['customer']->surname?><br>
+                <?php if (isset($data['accomodations']->date_start)) { ?>
+                    Accomodation: <?=date_format(date_create($data['accomodations']->date_start), "d.m.Y")?> - <?=date_format(date_create($data['accomodations']->date_end), "d.m.Y")?>
+                <?php } ?>
             </div>
             <?php 
-            foreach ($data['events'] as $singleEvent) { ?>
-            <hr>
-            <div class="row">
-                <div class="col-sm-12">
-                    <h4><?=$singleEvent->title?></h4>
-                </div>
-                <div class="col-sm-12">
-                    Description: <?=$singleEvent->description?>
-                </div>
-                <div class="col-sm-12">
-                    Date and time: <?=date_format(date_create($singleEvent->date), "d.m.Y")?> <?=$singleEvent->start?>
-                </div>
-                <div class="col-sm-12">
-                    Section title and color: <?=$data['sections'][$singleEvent->section]['title']?> - <?=$data['sections'][$singleEvent->section]['color']?>
-                </div>
-                <div class="col-sm-12">
-                    Duration: <?=$singleEvent->duration?> hour(s)
-                </div>
-                <div class="col-sm-12">
-                    Event location: <?=$singleEvent->location?>
-                </div>
-                <div class="col-sm-12">
-                    Pickup location: <?=$singleEvent->pickup_location?>
-                </div>
-            </div>
+            foreach ($data['events'] as $singleEvent) { 
+                if (date("Y-m-d") < $singleEvent->date) {
+                    $bgcolor = (date("Y-m-d") > $singleEvent->date) ? "#999" : $data['sections'][$singleEvent->section]['color'];?>
+                    <div class="col-sm-12 guest-event-title" 
+                         style="background-color: <?=$bgcolor?>"
+                         onclick="$('#single-event-<?=$singleEvent->id?>').slideToggle()">
+                        <h5c style="color: #<?=readableColour($bgcolor); ?>"><?=$singleEvent->title?></h5c><br>
+                        <span style="color: #<?=readableColour($bgcolor); ?>">
+                            <?= date_format(date_create($singleEvent->date), "d.m.Y")?> <?=$singleEvent->start?> (<?=$data['sections'][$singleEvent->section]['title']?>)
+                        </span>
+                    </div>
+                    <div class="row guest-event-details board-section" id="single-event-<?=$singleEvent->id?>">
+                        <div class="col-sm-12">
+                            Location: <strong><?=$singleEvent->location?></strong>
+                        </div>
+                        <div class="col-sm-12">
+                            Gathering spot: <strong><?=$singleEvent->pickup_location?></strong>
+                        </div>
+                        <div class="col-sm-12">
+                            Duration: <strong><?=$singleEvent->duration?> hour(s)</strong>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                            <strong><?=$singleEvent->description?></strong>
+                        </div>
+                    </div>
             <?php
+                }
             }
             ?>
         </div>
+        <div class="col-sm-12 guest-signature">
+            © 2022 School3s Lanzarote
+        </div>
     </body>
 </html>
+<?php 
+function readableColour($bg) {
+    $bg = str_replace("#", "", $bg);
+    list($r, $g, $b) = sscanf($bg, "%02x%02x%02x");
+    $squared_contrast = (
+            $r * $r * .299 +
+            $g * $g * .587 +
+            $b * $b * .114 );
+    return ($squared_contrast > pow(130, 2)) ? '444' : 'dedede';
+}
+?>

@@ -203,7 +203,7 @@ class apiModel extends model {
                                                 </a>
                                                 <div class="event-details-popup-wrapper text-left" style="float:left" onclick="toggleEventPopup(&#39;#event-details-' . $row['event_id'] . '&#39;)">
                                                     <strong class="lower-3">' . $row['event_title'] . '</strong> <i style="font-size: 12px;" class="lower-3"> at ' . $row['event_start'] . '</i>
-                                                    <div id="event-details-' . $row['event_id'] . '" class="event-details-popup col-sm-12"><hr>
+                                                    <div id="event-details-' . $row['event_id'] . '" class="event-details-popup col-sm-12 board-section">
                                                         <div class="row">
                                                             <div class="col-sm-4">
                                                                 <div class=" text-left">
@@ -451,8 +451,10 @@ class apiModel extends model {
                                         accomodation.comment as comment,
                                         customer.name as name,
                                         customer.surname as surname,
+                                        room.title as room_title,
                                         room.color as color,
-                                        room.description as description
+                                        room.description as description,
+                                        bed.title as bed_title
                                     FROM accomodation
                                     INNER JOIN customer ON accomodation.customer_id = customer.id
                                     INNER JOIN bed ON bed.id = accomodation.bed_id
@@ -484,7 +486,8 @@ class apiModel extends model {
             foreach ($result as $row) {
                 $dateString = "'" . $date . "'";
                 $accomodation = "'#accomodation-" . $row['id'] . "'";
-                $accomodationListHTML .= '<div class="col-sm-12" style="background-color:' . $row['color'] . ';line-height:30px;">
+                //echo "<pre>";var_dump($row);echo "</pre>";
+                $accomodationListHTML .= '<div class="col-sm-12 accomodation-title-line" style="background-color:' . $row['color'] . ';line-height:30px;">
                                         <div class="row">
                                             <div class="col-sm-12 accomodation-list-content-section">
                                                 <a href="javascript:" onclick="deleteAccomodationConfirm(' . $accomodation . ');" class="delete-btn-style" style="float:left; padding-top: 2px;">
@@ -492,7 +495,7 @@ class apiModel extends model {
                                                 </a>
                                                 <div class="accomodation-details-popup-wrapper text-left" style="float:left" onclick="toggleAccomodationPopup(&#39;#accomodation-details-' . $row['id'] . '&#39;)">
                                                     <strong class="lower-3">' . $row['name'] . " " . $row['surname'] . '</strong>
-                                                    <div id="accomodation-details-' . $row['id'] . '" class="accomodation-details-popup col-sm-12"><hr>
+                                                    <div id="accomodation-details-' . $row['id'] . '" class="accomodation-details-popup col-sm-12 board-section">
                                                         <div class="row">
                                                             <div class="col-sm-12">
                                                                 <div class=" text-left">

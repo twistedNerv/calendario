@@ -24,7 +24,9 @@
     <?php if ($data['selectedCustomer']->id) { ?>
         <a href="<?= URL ?>customer/update">Add customer</a>
         <h4>Edit customer</h4>
-        <?= URL . "home/guest/" . $data['selectedCustomer']->hash?>
+        <span class="customer-guest-link">
+            <?= URL . "home/guest/" . $data['selectedCustomer']->hash?>
+        </span><br><br>
     <?php } else { ?>
         <h4>Add customer</h4>
     <?php } ?>
