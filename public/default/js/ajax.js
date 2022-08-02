@@ -40,42 +40,36 @@ function getAccomodations(date) {
     });
 }
 
+function openAdder(element) {
+    clearEventAdder();
+    $("#" + element).slideToggle();
+}
+
 function addEvent() {
+    event_id = $("#event-id").val();
     section = $("#event-section").val();
     title = $("#event-title").val();
     description = $("#event-description").val();
     eventlocation = $("#event-location").val();
     pickup_location = $("#event-pickup_location").val();
     date_from = $("#event-date-from").val();
-    date_to = $("#event-date-to").val();
-    if(date_to == "") date_to = date_from;
     start = $("#event-start").val();
     duration = $("#event-duration").val();
     price = $("#event-price").val();
     comment = $("#event-comment").val();
     var customervalues = $("input[name='customertoeventid[]']").map(function(){return $(this).val();}).get();
     var instructorvalues = $("input[name='instructortoeventid[]']").map(function(){return $(this).val();}).get();
-    if(date_from != "" && date_to != "") {
+    if(date_from != "") {
         $.ajax({
             type: 'POST',
             url: URL + 'api/setNewEvent/',
-            data: ({func:"addEvent", section:section, title:title, description:description, eventlocation:eventlocation, pickup_location:pickup_location, date_from:date_from, date_to:date_to, start:start, duration:duration, price:price, comment:comment, customervalues:customervalues, instructorvalues:instructorvalues}),
+            data: ({func:"addEvent", event_id:event_id, section:section, title:title, description:description, eventlocation:eventlocation, pickup_location:pickup_location, date_from:date_from, start:start, duration:duration, price:price, comment:comment, customervalues:customervalues, instructorvalues:instructorvalues}),
             success: function (data) {
                 var newDisplayDates = date_from.split("-");
                 getCalendar('calendar_div', newDisplayDates[0], newDisplayDates[1]);
-                $("#event-title").val("");
-                $("#event-description").val("");
-                $("#event-location").val("");
-                $("#event-pickup_location").val("");
-                $("#event-date-from").val("");
-                $("#event-date-to").val("");
-                $("#event-start").val("");
-                $("#event-duration").val("");
-                $("#event-price").val("");
-                $("#event-comment").val("");
-                $('#event-customers').find('div').remove()
-                $('#event-instructors').find('div').remove()
-                $("#event-add-notification").html("Event added.").show().delay(3000).fadeOut('slow');;
+                clearEventAdder();
+                $("#event-add-notification").html("Event added.").show().delay(3000).fadeOut('slow');
+                $('#add_event_section').slideUp('fast');
             }
         });
     } else {
@@ -100,13 +94,7 @@ function addAccomodation() {
             success: function (data) {
                 var newDisplayDates = date_from.split("-");
                 getAccomodationCalendar('accomodation_calendar_div', newDisplayDates[0], newDisplayDates[1]);
-                $("#selected-customer-id").val('');
-                $("#accomodation-customer-search").val('');
-                $("#accomodation-price").val('');
-                $("#accomodation-room").val('');
-                $("#accomodation-bed").val('');
-                $("#accomodation-date-from").val('');
-                $("#accomodation-date-to").val('');
+                clearAccomodationAdder();
                 $('#add_accomodation_section').slideUp('fast');
             }
         });
@@ -116,6 +104,7 @@ function addAccomodation() {
 }
 
 function editEvent(event) {
+    clearEventAdder();
     $('#event_list').slideUp('fast');
     $('#add_event_section').slideUp('fast');
     $('#add_event_section').slideToggle()
@@ -125,13 +114,13 @@ function editEvent(event) {
             url: URL + 'event/getEvent/' + event,
             success: function (data) {
                 event_data = $.parseJSON(data);
-                console.log(event_data);
+                $("#event-id").val(event_data.id);
+                $("#event-section").val(event_data.section).change();
                 $("#event-title").val(event_data.title);
-                $("#event-description").append(event_data.description);
+                $("#event-description").val(event_data.description);
                 $("#event-location").val(event_data.location);
                 $("#event-pickup_location").val(event_data.pickup_location);
                 $("#event-date-from").val(event_data.date);
-                $("#event-date-to").val('');
                 $("#event-start").val(event_data.start);
                 $("#event-duration").val(event_data.duration);
                 $("#event-price").val(event_data.price);
@@ -139,9 +128,37 @@ function editEvent(event) {
                 jQuery.each(event_data.customers, function(key, val) {
                     selectCustomer(val.name + " " + val.surname + "_" + val.id)
                 });
+                jQuery.each(event_data.instructors, function(key, val) {
+                    selectInstructor(val.name + " " + val.surname + "_" + val.id)
+                });
             }
         });
     }
+}
+
+function clearEventAdder() {
+    $("#event-id").val("");
+    $("#event-title").val("");
+    $("#event-description").val("");
+    $("#event-location").val("");
+    $("#event-pickup_location").val("");
+    $("#event-date-from").val("");
+    $("#event-start").val("");
+    $("#event-duration").val("");
+    $("#event-price").val("");
+    $("#event-comment").val("");
+    $('#event-customers').empty()
+    $('#event-instructors').empty()
+}
+
+function clearAccomodationAdder() {
+    $("#selected-customer-id").val('');
+    $("#accomodation-customer-search").val('');
+    $("#accomodation-price").val('');
+    $("#accomodation-room").val('');
+    $("#accomodation-bed").val('');
+    $("#accomodation-date-from").val('');
+    $("#accomodation-date-to").val('');
 }
 
 function deleteEvent(eventId, date) {

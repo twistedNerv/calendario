@@ -18,6 +18,10 @@ function deleteAccomodationCancel() {
     $(".accomodation-id").slideUp();
 }
 
+function removecustomer(element) {
+    $('#' + element).remove();
+}
+
 function toggleEventPopup(eventId) {
     $(eventId).slideToggle();
 }
@@ -32,10 +36,10 @@ function selectInstructor(instructor) {
     var instructor_id = instructorArray[1];
     $("#event-instructor-search").val("");
     $('.list-event-instructor').hide();
-    code = "<div class='col-sm-12'>";
+    code = "<div class='col-sm-12' id='instructor-set-" + instructor_id + "'>";
     code += "<div class='row'>";
     code += "<div class='col-sm-1 text-right'>";
-    code += "<span onclick='removeinstructor( & quot;<?= $tempId ?> & quot; )' class='deletespan'><i class='fas fa-times' title='Remove instructor'></i></span></div>";
+    code += "<span onclick='$(&quot;#instructor-set-" + instructor_id + "&quot;).remove()' class='deletespan'><i class='fas fa-times' title='Remove instructor'></i></span></div>";
     code += "<div class='col-sm-10'><strong><input type='text' name='instructortoevent[]' class='readonlyinput' value='" + instructor_name + "' readonly></strong></div>";
     code += "<input type='hidden' name='instructortoeventid[]' class='readonlyinput' value='" + instructor_id + "' readonly></strong></div>";
     code += "</div></div>";
@@ -48,10 +52,10 @@ function selectCustomer(customer) {
     var customer_id = customerArray[1];
     $("#event-customer-search").val("");
     $('.list-event-customer').hide();
-    code = "<div class='col-sm-12'>";
+    code = "<div class='col-sm-12' id='customer-set-" + customer_id + "'>";
     code += "<div class='row'>";
     code += "<div class='col-sm-1 text-right'>";
-    code += "<span onclick='removecustomer( & quot;<?= $tempId ?> & quot; )' class='deletespan'><i class='fas fa-times' title='Remove customer'></i></span></div>";
+    code += "<span onclick='$(&quot;#customer-set-" + customer_id + "&quot;).remove()' class='deletespan'><i class='fas fa-times' title='Remove customer'></i></span></div>";
     code += "<div class='col-sm-10'><strong><input type='text' name='customertoevent[]' class='diagnozaitem readonlyinput' value='" + customer_name + "' readonly></strong></div>";
     code += "<input type='hidden' name='customertoeventid[]' class='diagnozaitem readonlyinput' value='" + customer_id + "' readonly></strong></div>";
     code += "</div></div>";
@@ -121,7 +125,7 @@ $(document).ready(function () {
         } else {
             $('#accomodation_list').slideUp('fast');
         }
-        if( $(e.target).closest("#add_event_section, #add_event_icon").length > 0 ) {
+        if( $(e.target).closest("#add_event_section, #add_event_icon, .deletespan").length > 0 ) {
             return false;
         } else {
             $('#add_event_section').slideUp('fast');

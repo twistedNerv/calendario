@@ -35,7 +35,7 @@ class apiModel extends model {
                                     Events
                                 </div>
                                 <div class='col-sm-3 text-right'>
-                                    <a href='javascript:void(0);' id='add_event_icon' onclick='$(&quot;#add_event_section&quot;).slideToggle()'>
+                                    <a href='javascript:void(0);' id='add_event_icon' onclick='openAdder(&quot;add_event_section&quot)'>
                                         add <i class='fa fa-calendar-plus'></i>
                                     </a>
                                 </div>
@@ -246,10 +246,6 @@ class apiModel extends model {
         return $eventListHTML;
     }
     
-    public function setNewEvent() {
-        return $_POST;
-    }
-    
     public function searchCustomer($searchString) {
         $result = $this->db->prepare("SELECT * FROM customer WHERE name LIKE :searchstring OR surname LIKE :searchstring LIMIT 10");
         $result->bindParam(':searchstring', $searchString);
@@ -308,9 +304,17 @@ class apiModel extends model {
         $result = $this->db->prepare('DELETE FROM event WHERE id = :event_id');
         $result->bindParam(':event_id', $event_id);
         $result->execute();
+        $this->deleteCustomersFromEvent($event_id);
+        $this->deleteInstructorsFromEvent($event_id);
+    }
+    
+    public function deleteCustomersFromEvent($event_id) {
         $result = $this->db->prepare('DELETE FROM event_customer WHERE event_id = :event_id');
         $result->bindParam(':event_id', $event_id);
         $result->execute();
+    }
+    
+    public function deleteInstructorsFromEvent($event_id) {
         $result = $this->db->prepare('DELETE FROM event_instructor WHERE event_id = :event_id');
         $result->bindParam(':event_id', $event_id);
         $result->execute();
@@ -338,7 +342,7 @@ class apiModel extends model {
                                     Accomodations
                                 </div>
                                 <div class='col-sm-3 text-right'>
-                                    <a href='javascript:void(0);' id='add_event_icon' onclick='$(&quot;#add_accomodation_section&quot;).slideToggle()'>
+                                    <a href='javascript:void(0);' id='add_event_icon' onclick='openAdder(&quot;add_accomodation_section&quot)'>
                                         <i class='fa fa-calendar-plus'></i>
                                     </a>
                                 </div>

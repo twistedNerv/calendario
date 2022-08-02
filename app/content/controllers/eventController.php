@@ -32,6 +32,17 @@ class eventController extends controller {
             $event['customers'][$i]['surname'] = $customer->surname;
             $i++;
         }
+        $event_instructorModel = $this->loadModel('event_instructor');
+        $event_instructors = (array)$event_instructorModel->getAllBy('event_id', $event_id);
+        $instructorModel = $this->loadModel('instructor');
+        $i = 0;
+        foreach ($event_instructors as $singleInstructor) {
+            $instructor = $instructorModel->getOneBy('id', $singleInstructor['instructor_id']);
+            $event['instructors'][$i]['id'] = $instructor->id;
+            $event['instructors'][$i]['name'] = $instructor->name;
+            $event['instructors'][$i]['surname'] = $instructor->surname;
+            $i++;
+        }
         echo json_encode($event);
     }
 

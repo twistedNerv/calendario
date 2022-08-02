@@ -6,6 +6,7 @@
         <div id="add_event_section" class="none">
             <h2c>Add event</h2c>
             <div class="add-collapser board-section">
+                <input type="hidden" name="event-id" id="event-id" value="" />
                 <div class="col-sm-12 text-left" style="margin: 20px 5px;">
                     <div class="row">
                         <div class="col-sm-12">
@@ -35,10 +36,10 @@
                             <label for="event-date-from">Event date</label>
                             <input type="date" name="event-date-from" class="daate-pickhing-field" id="event-date-from" onfocus="this.showPicker()" required>
                         </div>
-                        <div class="col-sm-5">
+                        <!--div class="col-sm-5">
                             <label for="event-date-to">Repeating events end date</label>
                             <input type="date" name="event-date-to" class="datae-picking-field" id="event-date-to" onfocus="this.showPicker()" required>
-                        </div>
+                        </div-->
                         <div class="col-sm-4">
                             <label for="event-time">Time start of the event</label>
                             <input type='time' class='form-control' name='event-start' id='event-start' min="00:00" max="23:59" required>

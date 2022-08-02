@@ -28,7 +28,9 @@ class apiController extends controller {
     
     public function setNewEventAction () {
         $eventModel = $this->loadModel('event');
-        
+        if ($this->tools->getPost("event_id") != "") {
+            $eventModel->getOneBy("id", $this->tools->getPost("event_id"));
+        }
         if (isset($_POST['title']) && $_POST['title'] != "") {
             $eventModel->setSection($this->tools->getPost("section"));
             $eventModel->setTitle($this->tools->getPost("title"));
@@ -43,18 +45,24 @@ class apiController extends controller {
             $eventModel->flush();
             $this->tools->log("api", "Event element with title:" . $this->tools->getPost("title") . " event successfully added.");
             
-            $lastEventId = $eventModel->getLast('id');
-            if (isset($_POST['customervalues']) && !empty($_POST['customervalues'])) {
+            $lastEventId = (isset($_POST['event_id']) && !empty($_POST['event_id'])) ? $_POST['event_id'] : $eventModel->getLast('id');
+            
+            $apiModel = $this->loadModel('api');
+            $apiModel->deleteCustomersFromEvent($lastEventId);
+            $apiModel->deleteInstructorsFromEvent($lastEventId);
+            $customerValues = array_unique($_POST['customervalues']);
+            $instructorValues = array_unique($_POST['instructorvalues']);
+            if (isset($customerValues) && !empty($customerValues)) {
                 $event_customerModel = $this->loadModel('event_customer');
-                foreach ($_POST['customervalues'] as $singleCustomerId) {
+                foreach ($customerValues as $singleCustomerId) {
                     $event_customerModel->setEvent_id($lastEventId);
                     $event_customerModel->setCustomer_id($singleCustomerId);
                     $event_customerModel->flush();
                 }
             }
-            if (isset($_POST['instructorvalues']) && !empty($_POST['instructorvalues'])) {
+            if (isset($instructorValues) && !empty($instructorValues)) {
                 $event_instructorModel = $this->loadModel('event_instructor');
-                foreach ($_POST['instructorvalues'] as $singleInstructorId) {
+                foreach ($instructorValues as $singleInstructorId) {
                     $event_instructorModel->setEvent_id($lastEventId);
                     $event_instructorModel->setInstructor_id($singleInstructorId);
                     $event_instructorModel->flush();
