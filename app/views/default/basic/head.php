@@ -23,11 +23,11 @@
             <div class="col-sm-12 header no-print">
                 <div class="header-content">
                     <div class="col-sm-4 float-left">
-                        <img src="<?= $this->template->getImage("logo-title.png")?>" class="header-logo">
+                        <img src="<?= $this->template->getImage("logo.png")?>" class="header-logo">
                     </div>
                     <div class="col-sm-8 header-right">
                         <span class="float-left"><h1 class="header-title"><?=$this->config->getParam('header_title')?></h1></span>
-                        <span class="float-right"><img src="<?= $this->template->getImage("logo-grey.png")?>"></span>
+                        <!--span class="float-right"><img src="<?= $this->template->getImage("logo-grey.png")?>"></span-->
                     </div>
                 </div>
             </div>

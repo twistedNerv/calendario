@@ -31,8 +31,7 @@ html {
 }
 .header-logo {
     opacity: 0.8;
-    width: 180px;
-    top: 27px;
+    width: 210px;
     position: relative;
 }
 body {
@@ -40,6 +39,10 @@ body {
     font-size: 15px;
     background-color: #f7f2e7;
     color: #595a5e;
+    box-shadow: 0 0 70px rgba(0, 0, 0, 0.5) inset;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 h1, h2, h3, h4, h5, h6 {
     font-family: 'QuickSand Light Bold';
@@ -380,19 +383,27 @@ table td {
     font-size: 20px;
 }
 .guest-header {
-    background-color: #5c4033;
-    color: #ccc;
-    text-shadow: 0 0 5px black;
-    font-size: 15px;
+    color: #333;
+    font-size: 17px;
     font-weight: bold;
-    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.4) inset;
-    border-radius: 0 0px 10px 10px;
-    margin-bottom: 10px;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.2) inset;
+    background-color: #ccc;
+    padding-bottom: 15px;
+}
+.guest-header-title {
+    background-color: #B1907F;
+    color: #333;
+    font-size: 17px;
+    font-weight: bold;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.2) inset;
+}
+.guest-header img {
+    max-width: 100%;
 }
 .guest-event-title {
     background-color: #777;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.2) inset;
-    color: #dedede;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.1) inset;
+    border-radius: 4px;
 }
 .guest-event-title h5c {
     color: #dedede;

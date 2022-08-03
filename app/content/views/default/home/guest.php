@@ -13,12 +13,16 @@
         <script type='text/javascript' src='http://localhost/calendario/public/default/js/default.js'></script>        
     </head>
     <body>
-        <div class="container col-sm-8 text-center">
+        <div class="container col-sm-12 text-center">
             <div class="col-sm-12 guest-header">
-                <?=$data['customer']->name?> <?=$data['customer']->surname?><br>
-                <?php if (isset($data['accomodations']->date_start)) { ?>
-                    Accomodation: <?=date_format(date_create($data['accomodations']->date_start), "d.m.Y")?> - <?=date_format(date_create($data['accomodations']->date_end), "d.m.Y")?>
-                <?php } ?>
+                <img src="<?= URL ?>public/default/images/logo_color.png">
+                <div class="col-sm-12 guest-header-title">
+                    <?=$data['customer']->name?> <?=$data['customer']->surname?><br>
+                    <?php if (isset($data['accomodations']->date_start)) { ?>
+                            Accomodation:<br> 
+                            <?=date_format(date_create($data['accomodations']->date_start), "d.m.Y")?> - <?=date_format(date_create($data['accomodations']->date_end), "d.m.Y")?>
+                    <?php } ?>
+                </div>
             </div>
             <?php 
             foreach ($data['events'] as $singleEvent) { 
@@ -31,7 +35,6 @@
                         <span style="color: #<?=readableColour($bgcolor); ?>">
                             <?= date_format(date_create($singleEvent->date), "d.m.Y")?> <?=$singleEvent->start?> (<?=$data['sections'][$singleEvent->section]['title']?>)
                         </span>
-                    </div>
                     <div class="row guest-event-details board-section" id="single-event-<?=$singleEvent->id?>">
                         <div class="col-sm-12">
                             Location: <strong><?=$singleEvent->location?></strong>
@@ -46,6 +49,7 @@
                             <hr>
                             <strong><?=$singleEvent->description?></strong>
                         </div>
+                    </div>
                     </div>
             <?php
                 }
