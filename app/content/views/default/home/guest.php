@@ -12,7 +12,7 @@
         <link rel='stylesheet' href='http://localhost/calendario/public/default/css/default.css'>        
         <script type='text/javascript' src='http://localhost/calendario/public/default/js/default.js'></script>        
     </head>
-    <body>
+    <body style="box-shadow: 0 0 70px rgba(0, 0, 0, 0.5) inset;">
         <div class="container col-sm-12 text-center">
             <div class="col-sm-12 guest-header">
                 <img src="<?= URL ?>public/default/images/logo_color.png">
